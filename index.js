@@ -29,8 +29,8 @@ server.use(restify.bodyParser());
 
 server.get('/', index);
 
-server.get(/\/static\/?./, restify.serveStatic({
-	directory : './static/'
+server.get(/\/static\/?.*/, restify.serveStatic({
+	directory : __dirname
 }));
 
 //
