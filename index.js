@@ -3,7 +3,20 @@ var restify = require('restify'),
 
 	util = require('./lib/util.js'),
 	server,
-	init;
+	init,
+	index;
+
+init = function () {
+	'use strict';
+	console.log('Initializing ' + server.name);
+};
+
+index = function (req, res, next) {
+	'use strict';
+	console.log('Page "index" requested at ' + req.path());
+	res.end(util.page('index', './views/index.html'));
+	return next();
+};
 
 server = restify.createServer({
 	name: 'bostonfilm',
@@ -14,21 +27,13 @@ server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
 
-server.get('/', function (req, res, next) {
-	'use strict';
-	console.log('Page "index" requested at ' + req.path);
-	res.end(util.page('index', './views/index.html'));
-	return next();
-});
+server.get('/', index);
 
 server.get(/\/static\/?./, restify.serveStatic({
 	directory : './static/'
 }));
 
-init = function () {
-	'use strict';
-	console.log('Initializing ' + server.name);
-};
+//
 
 init();
 
