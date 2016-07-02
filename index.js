@@ -1,9 +1,13 @@
 var restify = require('restify'),
-	port = process.env.PORT || 8080;
+	port = process.env.PORT || 8080,
 
-var server = restify.createServer({
-  name: 'bostonfilm',
-  version: '1.0.0'
+	util = require('./lib/util.js'),
+	server,
+	init;
+
+server = restify.createServer({
+	name: 'bostonfilm',
+	version: '1.0.0'
 });
 
 server.use(restify.acceptParser(server.acceptable));
@@ -11,10 +15,24 @@ server.use(restify.queryParser());
 server.use(restify.bodyParser());
 
 server.get('/', function (req, res, next) {
-  res.end('hi matt');
-  return next();
+	'use strict';
+	console.log('Page "index" requested at ' + req.path);
+	res.end(util.page('index', './views/index.html'));
+	return next();
 });
 
+server.get(/\/static\/?./, restify.serveStatic({
+	directory : './static/'
+}));
+
+init = function () {
+	'use strict';
+	console.log('Initializing ' + server.name);
+};
+
+init();
+
 server.listen(port, function () {
-  console.log('%s listening at %s', server.name, server.url);
+	'use strict';
+	console.log('%s listening at %s', server.name, server.url);
 });
