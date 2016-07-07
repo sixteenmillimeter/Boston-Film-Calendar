@@ -25,7 +25,7 @@ index = function (req, res, next) {
 	return next();
 };
 
-calendar = function (request, response) {
+calendar = function (req, res) {
 	client.query('SELECT * FROM test_table', function(err, result) {
 		if (err){ 
 			console.error(err); 
