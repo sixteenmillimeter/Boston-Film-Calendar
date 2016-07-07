@@ -14,6 +14,7 @@ init = function () {
 	console.log('Initializing ' + server.name);
 	pg.connect(process.env.DATABASE_URL, function(err, c, done) {
 		client = c;
+		console.log('Connected to ' + process.env.DATABASE_URL);
 	});
 };
 
@@ -31,7 +32,7 @@ calendar = function (request, response) {
 			res.send(err); 
 		} else { 
 			res.send({calendar: result.rows});
-		});
+		}
 	});
 }
 
@@ -46,7 +47,7 @@ server.use(restify.bodyParser());
 
 server.get('/', index);
 
-app.get('/calendar', calendar);
+server.get('/calendar', calendar);
 
 server.get(/\/static\/?.*/, restify.serveStatic({
 	directory : __dirname
