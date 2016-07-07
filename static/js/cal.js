@@ -1,3 +1,5 @@
+
+
 $(function() {
 
 	var cal = $( '#calendar' ).calendario( {
@@ -11,7 +13,8 @@ $(function() {
 			caldata : codropsEvents
 		} ),
 		$month = $( '#custom-month' ).html( cal.getMonthName() ),
-		$year = $( '#custom-year' ).html( cal.getYear() );
+		$year = $( '#custom-year' ).html( cal.getYear() ),
+		store = [];
 
 	$( '#custom-next' ).on( 'click', function() {
 		cal.gotoNextMonth( updateMonthYear );
@@ -23,10 +26,24 @@ $(function() {
 		cal.gotoNow( updateMonthYear );
 	} );
 
-	function updateMonthYear() {				
-		$month.html( cal.getMonthName() );
-		$year.html( cal.getYear() );
+	function updateMonthYear() {	
+		var month = cal.getMonthName(),
+			year = cal.getYear();
+		$month.html( month );
+		$year.html( year );
+		getThisMonth(month, year);
 	}
+
+	var getThisMonth = function (month, year) {
+		'use strict';
+		if (store.indexOf(month + '_' + year) !== -1) {
+			console.log('Month already loaded');
+			return false;
+		} else {
+			store.push(month + '_' + year);
+			console.log('Adding ' + month + ', ' + year);
+		}
+	};
 
 	// you can also add more data later on. As an example:
 	/*
