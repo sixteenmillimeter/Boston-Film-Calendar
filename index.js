@@ -14,10 +14,7 @@ init = function () {
 	'use strict';
 	console.log('Initializing ' + server.name);
 	data.init(function () {
-		data.cal.create(function (err, data) {
-			console.log(err);
-			console.log(data);
-		});
+		//
 	});
 };
 
@@ -26,6 +23,14 @@ index = function (req, res, next) {
 	console.log('Page "index" requested at ' + req.path());
 	res.end(util.page('index', './views/index.html'));
 	return next();
+};
+
+createTable = function (req, res, next) {
+	'use strict';
+	data.cal.create(function (err, data) {
+		console.log(err);
+		console.log(data);
+	});
 };
 
 calendar = function (req, res, next) {
@@ -45,7 +50,26 @@ scrapeCals = function (req, res, next) {
 		if (err) {
 			return next(err);
 		}
-		res.send({data: data});
+		var i = -1,
+			added = 0,
+			eventObj,
+			n = function () {
+				i++;
+				if (i === data.length) {
+					return res.send({total: data.length, added: added});
+				}
+				eventObj = data.cal.gcalFields(data[i]);
+				data.cal.insert(obj, function (err, result) {
+					if (err) {
+						console.log(err);
+					} else {
+						added++;
+						console.log(result);
+					}
+					n();
+				})
+			};
+		n();
 		return next();
 	});
 };
