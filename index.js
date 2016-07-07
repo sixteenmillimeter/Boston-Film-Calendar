@@ -14,11 +14,10 @@ init = function () {
 	'use strict';
 	console.log('Initializing ' + server.name);
 	data.init();
-	data.cal.create(function (err, data) {
-		'use strict';
+	/*data.cal.create(function (err, data) {
 		console.log(err);
 		console.log(data);
-	});
+	});*/
 };
 
 index = function (req, res, next) {
