@@ -2,6 +2,8 @@ var restify = require('restify'),
 	port = process.env.PORT || 8080,
 	util = require('./lib/util.js'),
 	data = require('./lib/data.js'),
+	scrape = require('./lib/scrape.js'),
+	gcals = util.json('./data/gcals.json'),
 	server,
 	init,
 	index,
@@ -32,8 +34,15 @@ calendar = function (req, res, next) {
 	});	
 };
 
-scrape = function (req, res, next) {
+scrapeCals = function (req, res, next) {
 	'use strict';
+	scrape.gcals(gcals, function (err, data) {
+		if (err) {
+			return next(err);
+		}
+		res.send({data: data});
+		return next();
+	});
 };
 
 server = restify.createServer({
@@ -49,7 +58,7 @@ server.get('/', index);
 
 server.get('/calendar', calendar);
 
-server.get('/scrape', scrape);
+server.get('/scrape', scrapeCals);
 
 server.get(/\/static\/?.*/, restify.serveStatic({
 	directory : __dirname
