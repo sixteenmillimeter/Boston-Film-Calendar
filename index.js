@@ -46,7 +46,7 @@ calendar = function (req, res, next) {
 
 scrapeCals = function (req, res, next) {
 	'use strict';
-	scrape.gcals(gcals, function (err, data) {
+	scrape.gcals(gcals, function (err, d) {
 		if (err) {
 			return next(err);
 		}
@@ -56,9 +56,9 @@ scrapeCals = function (req, res, next) {
 			n = function () {
 				i++;
 				if (i === data.length) {
-					return res.send({total: data.length, added: added});
+					return res.send({total: d.length, added: added});
 				}
-				eventObj = data.cal.gcalFields(data[i]);
+				eventObj = data.cal.gcalFields(d[i]);
 				data.cal.insert(obj, function (err, result) {
 					if (err) {
 						console.log(err);
