@@ -1,14 +1,20 @@
 var restify = require('restify'),
 	port = process.env.PORT || 8080,
-
+	pg = require('pg'),
+	squel = require('squel'),
+	client,
 	util = require('./lib/util.js'),
 	server,
 	init,
-	index;
+	index,
+	calendar;
 
 init = function () {
 	'use strict';
 	console.log('Initializing ' + server.name);
+	pg.connect(process.env.DATABASE_URL, function(err, c, done) {
+		client = c;
+	});
 };
 
 index = function (req, res, next) {
@@ -17,6 +23,17 @@ index = function (req, res, next) {
 	res.end(util.page('index', './views/index.html'));
 	return next();
 };
+
+calendar = function (request, response) {
+	client.query('SELECT * FROM test_table', function(err, result) {
+		if (err){ 
+			console.error(err); 
+			res.send(err); 
+		} else { 
+			res.send({calendar: result.rows});
+		});
+	});
+}
 
 server = restify.createServer({
 	name: 'bostonfilm',
@@ -29,9 +46,13 @@ server.use(restify.bodyParser());
 
 server.get('/', index);
 
+app.get('/calendar', calendar);
+
 server.get(/\/static\/?.*/, restify.serveStatic({
 	directory : __dirname
 }));
+
+
 
 //
 
