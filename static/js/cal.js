@@ -6,11 +6,11 @@ $(function() {
 			onDayClick : function( $el, $contentEl, dateProperties ) {
 
 				for( var key in dateProperties ) {
-					console.log( key + ' = ' + dateProperties[ key ] );
+					//console.log( key + ' = ' + dateProperties[ key ] );
 				}
 
 			},
-			caldata : codropsEvents
+			caldata : {}
 		} ),
 		$month = $( '#custom-month' ).html( cal.getMonthName() ),
 		$year = $( '#custom-year' ).html( cal.getYear() ),
