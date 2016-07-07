@@ -21,7 +21,7 @@ index = function (req, res, next) {
 	return next();
 };
 
-calendar = function (req, res) {
+calendar = function (req, res, next) {
 	'use strict';
 	data.cal.getAll(function (err, data) {
 		if (err) {
@@ -32,7 +32,7 @@ calendar = function (req, res) {
 	});	
 };
 
-scrape = function (req, res) {
+scrape = function (req, res, next) {
 	'use strict';
 };
 
