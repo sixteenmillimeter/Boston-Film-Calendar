@@ -8,7 +8,10 @@ var restify = require('restify'),
 	init,
 	index,
 	calendar,
-	fail;
+	createTable,
+	basicAuth,
+	checkUserPassword,
+	admin;
 
 init = function () {
 	'use strict';
@@ -25,12 +28,46 @@ index = function (req, res, next) {
 	return next();
 };
 
+admin = function (req, res, next) {
+
+	res.end('Admin console');
+	return next();
+};
+
 createTable = function (req, res, next) {
 	'use strict';
 	data.cal.create(function (err, data) {
 		console.log(err);
 		console.log(data);
 	});
+};
+
+basicAuth = function(req, res, next){                                       
+	res.header('WWW-Authenticate','Basic realm="Admin Console"');            
+
+	if (!req.authorization ||                                                       
+		!req.authorization.basic ||                                                 
+		!req.authorization.basic.password){   
+
+		res.send(401);                                                              
+		return next(false);                                                         
+	}                                                                             
+
+	checkUserPassword(req.authorization.basic.password, function(err, data){        
+		if (err || !data) {                                                          
+			res.send(401);                                                            
+			return next(false);                                                       
+		} else {
+			return next();  
+		}                                                       
+	});                                                                           
+};
+
+checkUserPassword = function (pw, callback) {
+	if (pw === process.env.ADMIN_PW) {
+		return callback(null, true)
+	}
+	return cb('Error');
 };
 
 calendar = function (req, res, next) {
@@ -88,6 +125,8 @@ server.get('/', index);
 server.get('/calendar', calendar);
 
 server.get('/scrape', scrapeCals);
+
+server.get('/admin', admin);
 
 server.get(/\/static\/?.*/, restify.serveStatic({
 	directory : __dirname
