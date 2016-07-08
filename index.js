@@ -29,7 +29,6 @@ index = function (req, res, next) {
 };
 
 admin = function (req, res, next) {
-
 	res.end('Admin console');
 	return next();
 };
@@ -66,7 +65,7 @@ basicAuth = function(req, res, next){
 checkUserPassword = function (pw, callback) {
 	'use strict';
 	if (pw === process.env.ADMIN_PW) {
-		return callback(null, true);
+		return cb(null, true);
 	}
 	return cb('Error');
 };
