@@ -132,7 +132,7 @@ server.get('/calendar', calendar);
 
 //Admin endpoints
 server.get('/admin', basicAuth, admin);
-server.get('/scrape', scrapeCals);
+server.get('/admin/scrape', basicAuth, scrapeCals);
 
 
 //
