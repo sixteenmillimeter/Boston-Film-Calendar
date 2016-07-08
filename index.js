@@ -64,8 +64,9 @@ basicAuth = function(req, res, next){
 };
 
 checkUserPassword = function (pw, callback) {
+	'use strict';
 	if (pw === process.env.ADMIN_PW) {
-		return callback(null, true)
+		return callback(null, true);
 	}
 	return cb('Error');
 };
@@ -119,6 +120,7 @@ server = restify.createServer({
 server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
+server.use(restify.authorizationParser());
 
 server.get('/', index);
 
