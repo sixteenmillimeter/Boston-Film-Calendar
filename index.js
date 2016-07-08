@@ -122,18 +122,18 @@ server.use(restify.queryParser());
 server.use(restify.bodyParser());
 server.use(restify.authorizationParser());
 
-server.get('/', index);
-
-server.get('/calendar', calendar);
-
-server.get('/scrape', scrapeCals);
-
-server.get('/admin', admin);
-
 server.get(/\/static\/?.*/, restify.serveStatic({
 	directory : __dirname
 }));
 
+server.get('/', index);
+
+server.get('/calendar', calendar);
+//server.get('/calendar/:month/:year', calendar);
+
+//Admin endpoints
+server.get('/admin', basicAuth, admin);
+server.get('/scrape', scrapeCals);
 
 
 //
