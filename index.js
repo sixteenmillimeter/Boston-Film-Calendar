@@ -62,7 +62,7 @@ basicAuth = function(req, res, next){
 	});                                                                           
 };
 
-checkUserPassword = function (pw, callback) {
+checkUserPassword = function (pw, cb) {
 	'use strict';
 	if (pw === process.env.ADMIN_PW) {
 		return cb(null, true);
