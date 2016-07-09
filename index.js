@@ -9,6 +9,7 @@ var restify = require('restify'),
 	index,
 	calendar,
 	createTable,
+	wipeTable
 	basicAuth,
 	checkUserPassword,
 	admin;
@@ -36,8 +37,26 @@ admin = function (req, res, next) {
 createTable = function (req, res, next) {
 	'use strict';
 	data.cal.create(function (err, data) {
-		console.log(err);
+		if (err) {
+			console.log(err);
+			return next(err);
+		}
 		console.log(data);
+		res.send(data);
+		return next();
+	});
+};
+
+wipeTable = function (req, res, next) {
+	'use strict';
+	data.cal.wipe(function (err, data) {
+		if (err) {
+			console.log(err);
+			return next(err);
+		}
+		console.log(data);
+		res.send(data);
+		return next();
 	});
 };
 
@@ -134,6 +153,8 @@ server.get('/calendar', calendar);
 //Admin endpoints
 server.get('/admin', basicAuth, admin);
 server.get('/admin/scrape', basicAuth, scrapeCals);
+server.get('/admin/createTable', basicAuth, createTable);
+server.get('/admin/wipeTable', basicAuth, wipeTable);
 
 
 //
