@@ -9,7 +9,7 @@ var restify = require('restify'),
 	index,
 	calendar,
 	createTable,
-	wipeTable
+	wipeTable,
 	basicAuth,
 	checkUserPassword,
 	admin;
