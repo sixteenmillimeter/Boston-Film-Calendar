@@ -120,10 +120,10 @@ scrapeCals = function (req, res, next) {
 				eventObj = data.cal.gcalFields(d[i]);
 				data.cal.insert(eventObj, function (err, result) {
 					if (err) {
-						console.log(err);
+						//console.log(err);
 					} else {
 						added++;
-						console.log(result);
+						//console.log(result);
 					}
 					n();
 				})
