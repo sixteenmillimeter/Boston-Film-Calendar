@@ -83,8 +83,9 @@ $(function() {
 
 	var dateToTime = function (date) {
 		var h = date.getHours(),
-			m = date.getMinutes();
-		return h + ':' + ( m <= 9 ? '0' + m : m);
+			m = date.getMinutes(),
+			p = h < 13 ? 'AM' : 'PM';
+		return '' + (h < 13 ? h : h - 12) + ':' + ( m <= 9 ? '0' + m : m) + p;
 	};
 
 	updateMonthYear();
