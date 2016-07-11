@@ -68,7 +68,7 @@ $(function() {
 			obj = {};
 			date = new Date(Math.round(arr[i].start_date));
 			dateStr = dateToMDY(date);
-			obj[dateStr] = arr[i].title;
+			obj[dateStr] = dateToTime(date) + ' - ' + arr[i].title;
 			console.log(obj);
 			cal.setData(obj);
 		}
@@ -79,6 +79,12 @@ $(function() {
 	    	m = date.getMonth() + 1,
 	    	y = date.getFullYear();
 	    return '' + (m<=9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d) + '-'  + y;
+	};
+
+	var dateToTime = function (date) {
+		var h = date.getHours(),
+			m = date.getMinutes();
+		return h + ':' + ( m <= 9 ? '0' + m : m);
 	};
 
 	updateMonthYear();
