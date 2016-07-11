@@ -122,10 +122,10 @@ scrapeCals = function (req, res, next) {
 				data.cal.insert(eventObj, function (err, result) {
 					if (err) {
 						console.log('Error adding to database');
-						console.log(err);
+						console.log(JSON.stringify(err));
 					} else {
 						added++;
-						console.log(result);
+						console.log(JSON.stringify(result));
 					}
 					n();
 				})
