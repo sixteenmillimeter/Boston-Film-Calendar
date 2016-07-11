@@ -108,7 +108,7 @@ scrapeCals = function (req, res, next) {
 		if (err) {
 			return next(err);
 		}
-		console.log(JSON.stringify(d));
+		//console.log(JSON.stringify(d));
 		var i = -1,
 			added = 0,
 			eventObj,
