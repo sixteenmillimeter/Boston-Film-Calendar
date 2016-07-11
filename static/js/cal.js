@@ -47,6 +47,7 @@ $(function() {
 				dataType : 'json',
 				success : function (data) {
 					console.log(data);
+					addToCalendar(data.calendar);
 				},
 				error : function (xhr, status, error) {
 					console.log('ERROR GETTING CALENDAR');
@@ -54,6 +55,20 @@ $(function() {
 				}
 			}
 			$.ajax(req); 
+		}
+	};
+
+	var addToCalendar = function (arr) {
+		'use strict';
+		var obj = {},
+			date,
+			i;
+		for (i = 0; i < arr.length; i++) {
+			obj = {};
+			date = new Date(arr[i].start_date);
+			date = date.toString('MM-dd-yy');
+			obj[date] = arr[i].title;
+			cal.setData(obj);
 		}
 	};
 
