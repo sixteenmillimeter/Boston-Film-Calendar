@@ -1,9 +1,11 @@
 var restify = require('restify'),
 	port = process.env.PORT || 8080,
+
 	util = require('./lib/util.js'),
 	data = require('./lib/data.js'),
 	scrape = require('./lib/scrape.js'),
 	gcals = util.json('./data/gcals.json'),
+
 	server,
 	init,
 	index,
@@ -106,6 +108,7 @@ scrapeCals = function (req, res, next) {
 		if (err) {
 			return next(err);
 		}
+		console.log(JSON.stringify(d));
 		var i = -1,
 			added = 0,
 			eventObj,
@@ -114,7 +117,6 @@ scrapeCals = function (req, res, next) {
 				if (i === data.length) {
 					return res.send({total: d.length, added: added});
 				}
-				console.log(d[i]);
 				eventObj = data.cal.gcalFields(d[i]);
 				data.cal.insert(eventObj, function (err, result) {
 					if (err) {
