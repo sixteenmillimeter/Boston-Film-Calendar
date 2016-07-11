@@ -67,11 +67,18 @@ $(function() {
 		for (i = 0; i < arr.length; i++) {
 			obj = {};
 			date = new Date(Math.round(arr[i].start_date));
-			dateStr = date.toString('MM-dd-yy');
+			dateStr = dateToDMY(date);
 			obj[dateStr] = arr[i].title;
 			console.log(obj);
 			cal.setData(obj);
 		}
+	};
+
+	var dateToDMY = function (date) {
+	    var d = date.getDate(),
+	    	m = date.getMonth() + 1,
+	    	y = date.getFullYear();
+	    return '' + (d <= 9 ? '0' + d : d) + '-' + (m<=9 ? '0' + m : m) + '-' + y;
 	};
 
 	updateMonthYear();
