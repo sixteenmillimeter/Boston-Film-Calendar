@@ -115,7 +115,8 @@ scrapeCals = function (req, res, next) {
 			n = function () {
 				i++;
 				if (i === d.length) {
-					return res.send({total: d.length, added: added});
+					res.send({total: d.length, added: added});
+					return next();
 				}
 				eventObj = data.cal.gcalFields(d[i]);
 				data.cal.insert(eventObj, function (err, result) {
@@ -129,7 +130,7 @@ scrapeCals = function (req, res, next) {
 				})
 			};
 		n();
-		return next();
+		
 	});
 };
 
