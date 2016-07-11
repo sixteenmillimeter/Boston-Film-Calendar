@@ -133,3 +133,7 @@ a {
 	color: rgba(255,255,255,0.5);
 	border-color: rgba(255,255,255,0.5);
 }
+
+.fc-content{
+	color: #fff;
+}
