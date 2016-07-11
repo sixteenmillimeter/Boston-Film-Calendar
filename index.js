@@ -112,15 +112,17 @@ scrapeCals = function (req, res, next) {
 		var i = -1,
 			added = 0,
 			eventObj,
+			errs = [],
 			n = function () {
 				i++;
 				if (i === d.length) {
-					res.send({total: d.length, added: added});
+					res.send({total: d.length, added: added, err: errs});
 					return next();
 				}
 				eventObj = data.cal.gcalFields(d[i]);
 				data.cal.insert(eventObj, function (err, result) {
 					if (err) {
+						errs.push(err);
 						console.log('Error adding to database');
 						console.log(JSON.stringify(err));
 					} else {
