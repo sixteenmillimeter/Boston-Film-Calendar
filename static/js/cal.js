@@ -74,7 +74,7 @@ $(function() {
 		}
 	};
 
-	var dateToDMY = function (date) {
+	var dateToMDY = function (date) {
 	    var d = date.getDate(),
 	    	m = date.getMonth() + 1,
 	    	y = date.getFullYear();
