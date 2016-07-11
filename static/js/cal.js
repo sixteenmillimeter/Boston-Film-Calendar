@@ -34,18 +34,26 @@ $(function() {
 
 	var getThisMonth = function (month, year) {
 		'use strict';
+		var req;
 		if (store.indexOf(month + '_' + year) !== -1) {
 			console.log('Month already loaded');
 			return false;
 		} else {
 			store.push(month + '_' + year);
 			console.log('Adding ' + month + ', ' + year);
-			$.get('/calendar', function (data) {
-				console.log(data);
-			}, function (err) {
-				console.error("Error getting /calendar");
-				console.log(err);
-			})
+			req = {
+				url : '/calendar',
+				type : 'GET',
+				dataType : 'json',
+				success : function (data) {
+					console.log(data);
+				},
+				error : function (xhr, status, error) {
+					console.log('ERROR GETTING CALENDAR');
+					console.log(error);
+				}
+			}
+			$.ajax(req); 
 		}
 	};
 
