@@ -65,7 +65,7 @@ $(function() {
 			i;
 		for (i = 0; i < arr.length; i++) {
 			obj = {};
-			date = new Date(arr[i].start_date);
+			date = new Date(Math.round(arr[i].start_date));
 			date = date.toString('MM-dd-yy');
 			obj[date] = arr[i].title;
 			console.log(obj);
