@@ -49,6 +49,8 @@ $(function() {
 		}
 	};
 
+	updateMonthYear();
+
 	// you can also add more data later on. As an example:
 	/*
 	someElement.on( 'click', function() {
