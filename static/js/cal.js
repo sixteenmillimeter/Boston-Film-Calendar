@@ -4,11 +4,9 @@ $(function() {
 
 	var cal = $( '#calendar' ).calendario( {
 			onDayClick : function( $el, $contentEl, dateProperties ) {
-
 				for( var key in dateProperties ) {
 					//console.log( key + ' = ' + dateProperties[ key ] );
 				}
-
 			},
 			caldata : {}
 		} ),
@@ -42,6 +40,12 @@ $(function() {
 		} else {
 			store.push(month + '_' + year);
 			console.log('Adding ' + month + ', ' + year);
+			$.get('/calendar', function (data) {
+				console.log(data);
+			}, function (err) {
+				console.error("Error getting /calendar");
+				console.log(err);
+			})
 		}
 	};
 
