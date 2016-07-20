@@ -93,13 +93,25 @@ checkUserPassword = function (pw, cb) {
 
 calendar = function (req, res, next) {
 	'use strict';
-	data.cal.getAll(function (err, data) {
-		if (err) {
-			return next(err);
-		}
-		res.send({calendar: data});
-		return next();
-	});	
+	if (req.params
+		&& typeof req.params.month !== 'undefined'
+		&& typeof req.params.year !== 'undefined') {
+		data.cal.getMonth(req.params.month, req.params.year, function (err, data) {
+			if (err) {
+				return next(err);
+			}
+			res.send({calendar: data});
+			return next();
+		});
+	} else {
+		data.cal.getAll(function (err, data) {
+			if (err) {
+				return next(err);
+			}
+			res.send({calendar: data});
+			return next();
+		});	
+	}
 };
 
 scrapeCals = function (req, res, next) {
@@ -154,7 +166,7 @@ server.get(/\/static\/?.*/, restify.serveStatic({
 server.get('/', index);
 
 server.get('/calendar', calendar);
-//server.get('/calendar/:month/:year', calendar);
+server.get('/calendar/:month/:year', calendar);
 
 //Admin endpoints
 server.get('/admin', basicAuth, admin);
