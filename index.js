@@ -14,7 +14,8 @@ var restify = require('restify'),
 	wipeTable,
 	basicAuth,
 	checkUserPassword,
-	admin;
+	admin,
+	createEvent;
 
 init = function () {
 	'use strict';
@@ -149,6 +150,11 @@ scrapeCals = function (req, res, next) {
 	});
 };
 
+createEvent = function (req, res, next) {
+	'use strict';
+	res.send({ event : "" });
+};
+
 server = restify.createServer({
 	name: 'bostonfilm',
 	version: '1.0.0'
@@ -165,7 +171,7 @@ server.get(/\/static\/?.*/, restify.serveStatic({
 
 server.get('/', index);
 
-server.get('/calendar', calendar);
+//server.get('/calendar', calendar);
 server.get('/calendar/:month/:year', calendar);
 
 //Admin endpoints
@@ -173,6 +179,9 @@ server.get('/admin', basicAuth, admin);
 server.get('/admin/scrape', basicAuth, scrapeCals);
 server.get('/admin/createTable', basicAuth, createTable);
 server.get('/admin/wipeTable', basicAuth, wipeTable);
+
+server.post('/admin/event', basicAuth, createEvent);
+//server.update('/admin/event', basicAuth, updateEvent);
 
 
 //
