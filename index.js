@@ -32,7 +32,7 @@ index = function (req, res, next) {
 };
 
 admin = function (req, res, next) {
-	res.end('Admin console');
+	res.end(util.page('admin', './views/admin.html'));
 	return next();
 };
 
