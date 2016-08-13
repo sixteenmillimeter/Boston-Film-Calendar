@@ -62,5 +62,26 @@ var getMonth = function () {
 };
 
 var layoutMonth = function (cal) {
-
+	'use strict';
+	var table = $('#events tbody'),
+		elem,
+		start_date,
+		i;
+	table.empty();
+	for (i = 0; i < cal.length; i++) {
+		elem = $('<tr>');
+		start_date = moment(Math.round(cal[i].start_date));
+		elem.append($('<td>').text(start_date.format('D')));
+		elem.append($('<td>').text(cal[i].title));
+		elem.append($('<td>').text(start_date.format('hh:mm a')));
+		elem.append($('<td>').text(''));
+		elem.append($('<td>').text(cal[i].org_id));
+		//if (cal[i].mute == 0) {
+			//elem.append($('<td>').append($('<input type="checkbox" checked>')));
+		//} else {
+			//elem.append($('<td>').append($('<input type="checkbox">')));
+		//}
+		elem.append($('<td>').append($('<input type="checkbox">')));
+		table.append(elem);
+	}
 };
