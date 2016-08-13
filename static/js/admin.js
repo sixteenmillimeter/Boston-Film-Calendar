@@ -70,6 +70,7 @@ var layoutMonth = function (cal) {
 	table.empty();
 	for (i = 0; i < cal.length; i++) {
 		elem = $('<tr>');
+		elem.data('item', cal[i]);
 		start_date = moment(Math.round(cal[i].start_date));
 		elem.append($('<td>').text(start_date.format('D')));
 		elem.append($('<td>').text(cal[i].title));
