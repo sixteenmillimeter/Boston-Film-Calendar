@@ -32,6 +32,22 @@ $(function() {
 		getThisMonth(month, year);
 	}
 
+	var months = [
+		'blank',
+		'january',
+		'february',
+		'march',
+		'april',
+		'may',
+		'june',
+		'july',
+		'august',
+		'september',
+		'october',
+		'november',
+		'december'
+	];
+
 	var getThisMonth = function (month, year) {
 		'use strict';
 		var req;
@@ -42,7 +58,7 @@ $(function() {
 			store.push(month + '_' + year);
 			console.log('Adding ' + month + ', ' + year);
 			req = {
-				url : '/calendar',
+				url : '/calendar/' + months.indexOf(month.toLowerCase()) + '/' + year,
 				type : 'GET',
 				dataType : 'json',
 				success : function (data) {
