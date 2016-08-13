@@ -87,39 +87,64 @@
 				
 			</nav>
 			<form role="form">
+				<!--
+				org : obj.orgname,
+				org_id : obj.id + '',
+				title : obj.summary,
+				url : found[0] || '',
+				description : obj.summary,
+				location : obj.location,
+				category : 'screening', 
+				mute : 0,
+				start_date : +new Date(obj.start),
+				end_date : +new Date(obj.end)
+			-->
 				<div class="form-group">
-					 
-					<label for="exampleInputEmail1">
-						Email address
+					<label for="inputTitle">
+						Title
 					</label>
-					<input type="email" class="form-control" id="exampleInputEmail1" />
+					<input type="text" class="form-control" id="inputTitle" />
 				</div>
 				<div class="form-group">
-					 
-					<label for="exampleInputPassword1">
-						Password
+					<label for="inputUrl">
+						URL
 					</label>
-					<input type="password" class="form-control" id="exampleInputPassword1" />
+					<input type="text" class="form-control" id="inputUrl" />
 				</div>
 				<div class="form-group">
-					 
-					<label for="exampleInputFile">
-						File input
+					<label for="inputLocation">
+						Location
 					</label>
-					<input type="file" id="exampleInputFile" />
-					<p class="help-block">
-						Example block-level help text here.
-					</p>
+					<input type="text" class="form-control" id="inputLocation" />
+				</div>
+				<div class="form-group">
+					<label for="inputDescription">
+						Description
+					</label>
+					<textarea class="form-control" id="inputDescription"><textarea>
+				</div>
+				<div class="form-group">
+					<label for="inputCategory">
+						Category
+					</label>
+					<input type="text" class="form-control" id="inputCategory" />
 				</div>
 				<div class="checkbox">
-					 
 					<label>
-						<input type="checkbox" /> Check me out
+						<input type="checkbox" id="inputMute" /> <label for="inputMute">Published</label>
 					</label>
 				</div> 
-				<button type="submit" class="btn btn-default">
-					Submit
-				</button>
+				<div class="form-group" id="formButtons">
+					<button type="submit" class="btn btn-default">
+						Submit
+					</button>
+					<button type="submit" class="btn btn-default">
+						Cancel
+					</button>
+					<button type="submit" class="btn btn-default">
+						Delete
+					</button>
+				</div>
 			</form>
 			<div class="row">
 				<div class="col-md-6">
