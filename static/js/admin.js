@@ -75,7 +75,7 @@ var layoutMonth = function (cal) {
 		elem.append($('<td>').text(cal[i].title));
 		elem.append($('<td>').text(start_date.format('hh:mm a')));
 		elem.append($('<td>').text(''));
-		elem.append($('<td>').text(cal[i].org_id));
+		elem.append($('<td>').text(cal[i].org));
 		//if (cal[i].mute == 0) {
 			//elem.append($('<td>').append($('<input type="checkbox" checked>')));
 		//} else {
