@@ -152,7 +152,38 @@ scrapeCals = function (req, res, next) {
 
 createEvent = function (req, res, next) {
 	'use strict';
-	res.send({ event : "" });
+
+	if ( typeof req.params.org !== 'undefined' &&
+		 typeof req.params.org_id !== 'undefined' &&
+		 typeof req.params.title !== 'undefined' &&
+		 typeof req.params.url !== 'undefined' &&
+		 typeof req.params.description !== 'undefined' &&
+		 typeof req.params.location !== 'undefined' &&
+		 typeof req.params.category !== 'undefined' &&
+		 typeof req.params.mute !== 'undefined' &&
+		 typeof req.params.start_date !== 'undefined' &&
+		 typeof req.params.end_date !== 'undefined') {
+
+		return next('Invalid request');
+	}
+
+	var obj = {
+		org : req.params.org,
+		org_id : req.params.org_id,
+		title : req.params.title,
+		url : req.params.url,
+		description : req.params.description,
+		location : req.params.location,
+		category : req.params.category,
+		mute : req.params.mute,
+		start_date : req.params.start_date, //millis
+		end_date : req.params.end_date //millis
+	};
+
+	data.cal.insert(obj, function (err, results) {
+		if (err) return next(err);
+		res.send(results);
+	});
 };
 
 server = restify.createServer({
@@ -181,7 +212,7 @@ server.get('/admin/createTable', basicAuth, createTable);
 server.get('/admin/wipeTable', basicAuth, wipeTable);
 
 server.post('/admin/event', basicAuth, createEvent);
-//server.update('/admin/event', basicAuth, updateEvent);
+//server.put('/admin/event', basicAuth, updateEvent);
 
 
 //
