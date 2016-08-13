@@ -120,15 +120,3 @@
 	border-bottom: none;
 }
 
-#tableMonthWrapper{
-	width: auto !important;
-}
-
-#tableMonth{
-	line-height: 0;
-}
-
-#events{
-	margin-top: 55px;
-}
-}
