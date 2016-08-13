@@ -19,7 +19,15 @@ var position;
 $(document).ready(function () {
 	position = moment();
 	getMonth();
+	$('#next').on('click', next);
+	$('#prev').on('click', prev);
 });
+
+var capitalize = function (string) {
+	'use strict';
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 
 var next = function () {
 	'use strict';
@@ -43,11 +51,16 @@ var getMonth = function () {
 			dataType : 'json',
 			success : function (data) {
 				console.log(data);
+				layoutMonth(data.calendar);
 			},
 			error : function (err) {
 				console.error(err);
 			}
  		};
+ 	$('#tableMonth').text(capitalize(months[Math.round(month)]) + ', ' + year);
 	$.ajax(obj);
 };
 
+var layoutMonth = function (cal) {
+
+};
