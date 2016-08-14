@@ -119,6 +119,7 @@ scrapeCals = function (req, res, next) {
 	'use strict';
 	scrape.gcals(gcals, function (err, d) {
 		if (err) {
+			console.log(err);
 			return next(err);
 		}
 		//console.log(JSON.stringify(d));
