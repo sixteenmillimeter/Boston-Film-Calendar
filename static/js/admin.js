@@ -65,15 +65,21 @@ var layoutMonth = function (cal) {
 	'use strict';
 	var table = $('#events tbody'),
 		elem,
+		title,
 		start_date,
 		i;
 	table.empty();
 	for (i = 0; i < cal.length; i++) {
 		elem = $('<tr>');
-		elem.data('item', cal[i]);
 		start_date = moment(Math.round(cal[i].start_date));
 		elem.append($('<td>').text(start_date.format('D')));
-		elem.append($('<td>').text(cal[i].title));
+		title = $('<td>').text(cal[i].title);
+		title.data('item', cal[i]);
+		title.on('click', function () {
+			var data = $(this).data('item');
+			console.log(data);
+		});
+		elem.append(title);
 		elem.append($('<td>').text(start_date.format('hh:mm a')));
 		elem.append($('<td>').text(''));
 		elem.append($('<td>').text(cal[i].org));
