@@ -112,7 +112,7 @@ var fillForm = function (obj) {
 	$('#inputUrl').val(obj.url);
 	$('#inputLocation').val(obj.location);
 	$('#inputDescription').val(obj.description);
-	$('#inputCategory').val(obj.category);
+	$('#inputCategory option[value="' + obj.category + '"]').prop('selected', true);
 	if (mute == 0) {
 		$('#inputMute').prop('checked', true);
 	} else if (mute == 1) {
@@ -126,6 +126,6 @@ var clearForm = function () {
 	$('#inputUrl').val('');
 	$('#inputLocation').val('');
 	$('#inputDescription').val('');
-	$('#inputCategory').val('');
+	$('#inputCategory option:eq(0)').prop('selected', true);
 	$('#inputMute').prop('checked', false);
 };
