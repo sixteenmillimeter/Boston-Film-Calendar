@@ -24,7 +24,9 @@ $(document).ready(function () {
 	$('#next').on('click', next);
 	$('#prev').on('click', prev);
 	$('#year').text(moment().format('YYYY'));
+	$('#Save').on('click', cancel);
 	$('#Cancel').on('click', cancel);
+	$('#Delete').on('click', del);
 });
 
 var capitalize = function (string) {
@@ -127,14 +129,27 @@ var layoutMonth = function (cal) {
 	}
 };
 
-var save = function () {};
+var save = function () {
+	'use strict';
+};
+
 var cancel = function () {
+	'use strict';
 	var msg = 'Are you sure you want to cancel editing this event?';
 	if (confirm(msg)) {
 		clearForm();
 	}
 };
-var del = function () {};
+
+var del = function () {
+	'use strict';
+	var msg = 'Are you sure you want to delete this event?';
+	if (confirm(msg)) {
+		
+		//
+		clearForm();
+	}
+};
 
 var fillForm = function (obj) {
 	'use strict';
