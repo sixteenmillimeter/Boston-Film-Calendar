@@ -1,5 +1,5 @@
 #tableMonthWrapper{
-	width: auto !important;
+	text-align: center;
 }
 
 #tableMonth{
@@ -14,5 +14,5 @@
 
 }
 #next{
-	
+	float: right;
 }
