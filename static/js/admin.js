@@ -87,12 +87,12 @@ var layoutMonth = function (cal) {
 		elem.append($('<td>').text(start_date.format('hh:mm a')));
 		elem.append($('<td>').text(''));
 		elem.append($('<td>').text(cal[i].org));
-		//if (cal[i].mute == 0) {
-			//elem.append($('<td>').append($('<input type="checkbox" checked>')));
-		//} else {
-			//elem.append($('<td>').append($('<input type="checkbox">')));
-		//}
-		elem.append($('<td>').append($('<input type="checkbox">')));
+		if (cal[i].mute == 0) {
+			elem.append($('<td>').append($('<input type="checkbox" />')));
+		} else if (cal[i].mute == 1) {
+			elem.append($('<td>').append($('<input type="checkbox" checked />')));
+		}
+		//elem.append($('<td>').append($('<input type="checkbox">')));
 		table.append(elem);
 	}
 };
