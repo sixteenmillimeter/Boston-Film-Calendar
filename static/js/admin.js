@@ -120,9 +120,9 @@ var layoutMonth = function (cal) {
 		elem.append($('<td>').text(start_date.format('hh:mm a')));
 		elem.append($('<td>').text(cal[i].category));
 		elem.append($('<td>').text(cal[i].org));
-		if (cal[i].mute == 0) {
+		if (cal[i].mute == 1) {
 			elem.append($('<td>').append($('<input type="checkbox" readonly />')));
-		} else if (cal[i].mute == 1) {
+		} else if (cal[i].mute == 0) {
 			elem.append($('<td>').append($('<input type="checkbox" checked readonly />')));
 		}
 		//elem.append($('<td>').append($('<input type="checkbox">')));
@@ -180,9 +180,9 @@ var fillForm = function (obj) {
 	$('#inputLocation').val(obj.location);
 	$('#inputDescription').val(obj.description);
 	$('#inputCategory option[value="' + obj.category + '"]').prop('selected', true);
-	if (obj.mute == 0) {
+	if (obj.mute == 1) {
 		$('#inputMute').prop('checked', true);
-	} else if (obj.mute == 1) {
+	} else if (obj.mute == 0) {
 		$('#inputMute').prop('checked', false);
 	}
 	$('body').scrollTop(0);
