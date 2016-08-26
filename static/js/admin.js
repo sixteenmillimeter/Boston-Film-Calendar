@@ -94,3 +94,36 @@ var layoutMonth = function (cal) {
 		table.append(elem);
 	}
 };
+
+var save = function () {};
+var cancel = function () {
+	var msg = 'Are you sure you want to cancel editing this event?';
+	if (confirm(msg)) {
+		clearForm();
+	}
+};
+var del = function () {};
+
+var fillForm = function (obj) {
+	'use strict';
+	$('#inputTitle').val(obj.title);
+	$('#inputUrl').val(obj.url);
+	$('#inputLocation').val(obj.location);
+	$('#inputDescription').val(obj.description);
+	$('#inputCategory').val(obj.category);
+	if (mute == 0) {
+		$('#inputMute').prop('checked', true);
+	} else if (mute == 1) {
+		$('#inputMute').prop('checked', false);
+	}
+};
+
+var clearForm = function () {
+	'use strict';
+	$('#inputTitle').val('');
+	$('#inputUrl').val('');
+	$('#inputLocation').val('');
+	$('#inputDescription').val('');
+	$('#inputCategory').val('');
+	$('#inputMute').prop('checked', false);
+};
