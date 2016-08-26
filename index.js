@@ -150,7 +150,7 @@ orgs = function (req, res, next) {
 		if (err) {
 			return next(err);
 		}
-		res.send({calendar: data});
+		res.send({orgs: data});
 		return next();
 	});
 };

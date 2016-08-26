@@ -14,7 +14,8 @@ var months = [
 	'december'
 ];
 
-var position;
+var position,
+	orgs = [];
 
 $(document).ready(function () {
 	position = moment();
@@ -41,6 +42,23 @@ var prev = function () {
 	'use strict';
 	position.subtract(1, 'months');
 	getMonth();
+};
+
+var getOrgs = function () {
+	'use strict';
+	var obj = {
+			url : '/orgs',
+			method : 'GET',
+			dataType : 'json',
+			success : function (data) {
+				orgs = data.orgs;
+			},
+			error : function (err) {
+				console.error(err);
+			}
+ 		};
+ 	$('#tableMonth').text(capitalize(months[Math.round(month)]) + ', ' + year);
+	$.ajax(obj);
 };
 
 var getMonth = function () {
@@ -110,6 +128,7 @@ var fillForm = function (obj) {
 	'use strict';
 	$('#inputTitle').val(obj.title);
 	$('#inputUrl').val(obj.url);
+	$('#inputCategory option[value="' + obj.org_id + '"]').prop('selected', true);
 	$('#inputLocation').val(obj.location);
 	$('#inputDescription').val(obj.description);
 	$('#inputCategory option[value="' + obj.category + '"]').prop('selected', true);
@@ -124,6 +143,7 @@ var clearForm = function () {
 	'use strict';
 	$('#inputTitle').val('');
 	$('#inputUrl').val('');
+	$('#inputOrg option:eq(0)').prop('selected', true);
 	$('#inputLocation').val('');
 	$('#inputDescription').val('');
 	$('#inputCategory option:eq(0)').prop('selected', true);
