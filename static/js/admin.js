@@ -159,6 +159,7 @@ var newEvent = function () {
 	if (doit) {
 		clearForm();
 		showForm();
+		$('#inputTitle').focus();
 	}
 };
 
