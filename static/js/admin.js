@@ -135,10 +135,8 @@ var save = function () {
 
 var cancel = function () {
 	'use strict';
-	var msg = 'Are you sure you want to cancel editing this event?';
-	if (confirm(msg)) {
-		clearForm();
-	}
+	//maybe ui action here
+	clearForm();
 };
 
 var del = function () {
