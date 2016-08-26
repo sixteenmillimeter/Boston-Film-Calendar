@@ -1,3 +1,11 @@
+#eventForm{
+	display: none;
+}
+
+#eventForm.editing{
+	display: block;
+}
+
 #tableMonthWrapper, footer{
 	text-align: center;
 }

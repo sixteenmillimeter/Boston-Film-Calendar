@@ -27,6 +27,7 @@ $(document).ready(function () {
 	$('#Save').on('click', cancel);
 	$('#Cancel').on('click', cancel);
 	$('#Delete').on('click', del);
+	$('#newEvent').on('click', newEvent);
 });
 
 var capitalize = function (string) {
@@ -149,6 +150,28 @@ var del = function () {
 	}
 };
 
+var newEvent = function () {
+	'use strict';
+	var doit = true;
+	if ($('#inputTitle').val() !== '') {
+		doit = confirm('Are you sure you want to clear the current event?');
+	}
+	if (doit) {
+		clearForm();
+		showForm();
+	}
+};
+
+var showForm = function () {
+	'use strict';
+	$('#eventForm').addClass('editing');
+};
+
+var hideForm = function () {
+	'use strict';
+	$('#eventForm').removeClass('editing');
+};
+
 var fillForm = function (obj) {
 	'use strict';
 	$('#inputTitle').val(obj.title);
@@ -163,6 +186,7 @@ var fillForm = function (obj) {
 		$('#inputMute').prop('checked', false);
 	}
 	$('body').scrollTop(0);
+	showForm();
 };
 
 var clearForm = function () {
@@ -174,4 +198,5 @@ var clearForm = function () {
 	$('#inputDescription').val('');
 	$('#inputCategory option:eq(0)').prop('selected', true);
 	$('#inputMute').prop('checked', false);
+	hideForm();
 };
