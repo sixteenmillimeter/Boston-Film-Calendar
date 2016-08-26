@@ -59,8 +59,7 @@ var getOrgs = function () {
 				console.error(err);
 			}
  		};
- 	$('#tableMonth').text(capitalize(months[Math.round(month)]) + ', ' + year);
-	$.ajax(obj);
+ 	$.ajax(obj);
 };
 
 var layoutOrgs = function (list) {
