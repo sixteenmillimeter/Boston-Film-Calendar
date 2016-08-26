@@ -21,6 +21,7 @@ $(document).ready(function () {
 	getMonth();
 	$('#next').on('click', next);
 	$('#prev').on('click', prev);
+	$('#year').text(moment().format('YYYY'));
 });
 
 var capitalize = function (string) {

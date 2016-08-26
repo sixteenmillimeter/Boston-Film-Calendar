@@ -1,5 +1,9 @@
-#tableMonthWrapper{
+#tableMonthWrapper, footer{
 	text-align: center;
+}
+
+footer{
+	padding: 20px 0 40px 0;
 }
 
 #tableMonth{
@@ -15,4 +19,9 @@
 }
 #next{
 	float: right;
+}
+
+.copyleft {
+  display:inline-block;
+  transform: rotate(180deg);
 }
