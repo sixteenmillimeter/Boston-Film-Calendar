@@ -237,8 +237,10 @@ server.get('/calendar/:month/:year', calendar);
 //Admin endpoints
 server.get('/admin', basicAuth, admin);
 server.get('/admin/scrape', basicAuth, scrapeCals);
+
 server.get('/admin/createEventTable', basicAuth, createEventTable);
 server.get('/admin/wipeEventTable', basicAuth, wipeEventTable);
+
 server.get('/admin/createOrgTable', basicAuth, createOrgTable);
 server.get('/admin/wipeOrgTable', basicAuth, wipeOrgTable);
 

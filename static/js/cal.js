@@ -81,7 +81,7 @@ $(function() {
 			dateStr,
 			i;
 		for (i = 0; i < arr.length; i++) {
-			if (arr[i].mute == 0) continue;
+			if (arr[i].mute == 1) continue;
 			obj = {};
 			date = new Date(Math.round(arr[i].start_date));
 			dateStr = dateToMDY(date);
