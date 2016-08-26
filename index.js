@@ -239,8 +239,8 @@ server.get('/admin', basicAuth, admin);
 server.get('/admin/scrape', basicAuth, scrapeCals);
 server.get('/admin/createEventTable', basicAuth, createEventTable);
 server.get('/admin/wipeEventTable', basicAuth, wipeEventTable);
-server.get('/admin/createOrgTable', basicAuth, createEventTable);
-server.get('/admin/wipeOrgTable', basicAuth, wipeEventTable);
+server.get('/admin/createOrgTable', basicAuth, createOrgTable);
+server.get('/admin/wipeOrgTable', basicAuth, wipeOrgTable);
 
 server.post('/admin/event', basicAuth, createEvent);
 //server.put('/admin/event', basicAuth, updateEvent);
