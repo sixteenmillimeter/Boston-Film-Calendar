@@ -20,6 +20,7 @@ var position,
 $(document).ready(function () {
 	position = moment();
 	getMonth();
+	getOrgs();
 	$('#next').on('click', next);
 	$('#prev').on('click', prev);
 	$('#year').text(moment().format('YYYY'));
@@ -52,6 +53,7 @@ var getOrgs = function () {
 			dataType : 'json',
 			success : function (data) {
 				orgs = data.orgs;
+				layoutOrgs(orgs);
 			},
 			error : function (err) {
 				console.error(err);
@@ -59,6 +61,17 @@ var getOrgs = function () {
  		};
  	$('#tableMonth').text(capitalize(months[Math.round(month)]) + ', ' + year);
 	$.ajax(obj);
+};
+
+var layoutOrgs = function (list) {
+	'use strict';
+	var i,
+		elem,
+		container = $('#inputOrg');
+	for (i = 0; i < list.length; i++) {
+		elem = $('<option>').attr('value', list[i].org_id).text(list[i].name);
+		container.append(elem);
+	}
 };
 
 var getMonth = function () {
