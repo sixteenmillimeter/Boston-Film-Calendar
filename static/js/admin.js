@@ -24,7 +24,7 @@ $(document).ready(function () {
 	$('#next').on('click', next);
 	$('#prev').on('click', prev);
 	$('#year').text(moment().format('YYYY'));
-	$('#Cancel').on('click', Cancel);
+	$('#Cancel').on('click', cancel);
 });
 
 var capitalize = function (string) {
