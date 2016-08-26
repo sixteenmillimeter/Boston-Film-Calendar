@@ -11,6 +11,7 @@ var restify = require('restify'),
 	index,
 	calendar,
 	orgs,
+	adminOrgs,
 	createEventTable,
 	wipeEventTable,
 	createOrgTable,
@@ -146,6 +147,17 @@ calendar = function (req, res, next) {
 
 orgs = function (req, res, next) {
 	'use strict';
+	data.orgs.getAllPublic(function (err, data) {
+		if (err) {
+			return next(err);
+		}
+		res.send({orgs: data});
+		return next();
+	});
+};
+
+adminOrgs = function (req, res, next) {
+	'use strict';
 	data.orgs.getAll(function (err, data) {
 		if (err) {
 			return next(err);
@@ -250,6 +262,8 @@ server.get('/orgs', orgs);
 //Admin endpoints
 server.get('/admin', basicAuth, admin);
 server.get('/admin/scrape', basicAuth, scrapeCals);
+
+server.get('/admin/orgs', basicAuth, adminOrgs);
 
 server.get('/admin/createEventTable', basicAuth, createEventTable);
 server.get('/admin/wipeEventTable', basicAuth, wipeEventTable);
