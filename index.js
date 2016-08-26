@@ -10,8 +10,10 @@ var restify = require('restify'),
 	init,
 	index,
 	calendar,
-	createTable,
-	wipeTable,
+	createEventTable,
+	wipeEventTable,
+	createOrgTable,
+	wipeOrgTable,
 	basicAuth,
 	checkUserPassword,
 	admin,
@@ -37,7 +39,7 @@ admin = function (req, res, next) {
 	return next();
 };
 
-createTable = function (req, res, next) {
+createEventTable = function (req, res, next) {
 	'use strict';
 	data.cal.create(function (err, data) {
 		if (err) {
@@ -50,9 +52,35 @@ createTable = function (req, res, next) {
 	});
 };
 
-wipeTable = function (req, res, next) {
+wipeEventTable = function (req, res, next) {
 	'use strict';
 	data.cal.wipe(function (err, data) {
+		if (err) {
+			console.log(err);
+			return next(err);
+		}
+		console.log(data);
+		res.send(data);
+		return next();
+	});
+};
+
+createOrgTable = function (req, res, next) {
+	'use strict';
+	data.orgs.create(function (err, data) {
+		if (err) {
+			console.log(err);
+			return next(err);
+		}
+		console.log(data);
+		res.send(data);
+		return next();
+	});
+};
+
+wipeOrgTable = function (req, res, next) {
+	'use strict';
+	data.orgs.wipe(function (err, data) {
 		if (err) {
 			console.log(err);
 			return next(err);
@@ -209,8 +237,10 @@ server.get('/calendar/:month/:year', calendar);
 //Admin endpoints
 server.get('/admin', basicAuth, admin);
 server.get('/admin/scrape', basicAuth, scrapeCals);
-server.get('/admin/createTable', basicAuth, createTable);
-server.get('/admin/wipeTable', basicAuth, wipeTable);
+server.get('/admin/createEventTable', basicAuth, createEventTable);
+server.get('/admin/wipeEventTable', basicAuth, wipeEventTable);
+server.get('/admin/createOrgTable', basicAuth, createEventTable);
+server.get('/admin/wipeOrgTable', basicAuth, wipeEventTable);
 
 server.post('/admin/event', basicAuth, createEvent);
 //server.put('/admin/event', basicAuth, updateEvent);
