@@ -85,7 +85,7 @@ var layoutMonth = function (cal) {
 		});
 		elem.append(title);
 		elem.append($('<td>').text(start_date.format('hh:mm a')));
-		elem.append($('<td>').text(''));
+		elem.append($('<td>').text(cal[i].category));
 		elem.append($('<td>').text(cal[i].org));
 		if (cal[i].mute == 0) {
 			elem.append($('<td>').append($('<input type="checkbox" readonly />')));
