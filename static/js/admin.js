@@ -75,6 +75,7 @@ var layoutMonth = function (cal) {
 		start_date = moment(Math.round(cal[i].start_date));
 		elem.append($('<td>').text(start_date.format('D')));
 		title = $('<td>').text(cal[i].title);
+		title.addClass('title');
 		title.data('item', cal[i]);
 		title.on('click', function () {
 			var data = $(this).data('item');

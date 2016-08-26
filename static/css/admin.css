@@ -25,3 +25,11 @@ footer{
   display:inline-block;
   transform: rotate(180deg);
 }
+
+td.title{
+	color: blue;
+	cursor: pointer;
+}
+td.title:hover{
+	text-decoration: underline;
+}
