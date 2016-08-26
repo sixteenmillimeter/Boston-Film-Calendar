@@ -21,13 +21,17 @@ $(document).ready(function () {
 	position = moment();
 	getMonth();
 	getOrgs();
+
+	$('#year').text(moment().format('YYYY'));
+
 	$('#next').on('click', next);
 	$('#prev').on('click', prev);
-	$('#year').text(moment().format('YYYY'));
 	$('#Save').on('click', cancel);
 	$('#Cancel').on('click', cancel);
 	$('#Delete').on('click', del);
 	$('#newEvent').on('click', newEvent);
+
+	$('#inputStart').datepicker();
 });
 
 var capitalize = function (string) {
