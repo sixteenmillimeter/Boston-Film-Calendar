@@ -149,6 +149,7 @@ var fillForm = function (obj) {
 	} else if (obj.mute == 1) {
 		$('#inputMute').prop('checked', false);
 	}
+	$('body').scrollTop(0);
 };
 
 var clearForm = function () {
