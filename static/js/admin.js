@@ -113,9 +113,9 @@ var fillForm = function (obj) {
 	$('#inputLocation').val(obj.location);
 	$('#inputDescription').val(obj.description);
 	$('#inputCategory option[value="' + obj.category + '"]').prop('selected', true);
-	if (mute == 0) {
+	if (obj.mute == 0) {
 		$('#inputMute').prop('checked', true);
-	} else if (mute == 1) {
+	} else if (obj.mute == 1) {
 		$('#inputMute').prop('checked', false);
 	}
 };
