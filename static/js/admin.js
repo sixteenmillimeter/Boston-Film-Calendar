@@ -22,6 +22,7 @@ $(document).ready(function () {
 	$('#next').on('click', next);
 	$('#prev').on('click', prev);
 	$('#year').text(moment().format('YYYY'));
+	$('#Cancel').on('click', clearForm);
 });
 
 var capitalize = function (string) {
@@ -80,6 +81,7 @@ var layoutMonth = function (cal) {
 		title.on('click', function () {
 			var data = $(this).data('item');
 			console.log(data);
+			fillForm(data);
 		});
 		elem.append(title);
 		elem.append($('<td>').text(start_date.format('hh:mm a')));
