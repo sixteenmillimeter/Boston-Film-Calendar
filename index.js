@@ -10,6 +10,7 @@ var restify = require('restify'),
 	init,
 	index,
 	calendar,
+	orgs,
 	createEventTable,
 	wipeEventTable,
 	createOrgTable,
@@ -143,6 +144,17 @@ calendar = function (req, res, next) {
 	}
 };
 
+orgs = function (req, res, next) {
+	'use strict';
+	data.orgs.getAll(function (err, data) {
+		if (err) {
+			return next(err);
+		}
+		res.send({calendar: data});
+		return next();
+	});
+};
+
 scrapeCals = function (req, res, next) {
 	'use strict';
 	scrape.gcals(gcals, function (err, d) {
@@ -233,6 +245,7 @@ server.get('/', index);
 
 //server.get('/calendar', calendar);
 server.get('/calendar/:month/:year', calendar);
+server.get('/orgs', orgs);
 
 //Admin endpoints
 server.get('/admin', basicAuth, admin);
