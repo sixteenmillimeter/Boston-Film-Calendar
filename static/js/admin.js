@@ -30,6 +30,7 @@ $(document).ready(function () {
 	$('#Cancel').on('click', cancel);
 	$('#Delete').on('click', del);
 	$('#newEvent').on('click', newEvent);
+	$('#editOrgs').on('click', editOrgs);
 
 	$('#inputStart').datepicker();
 	$('#inputEnd').datepicker();
@@ -42,6 +43,15 @@ $(document).ready(function () {
 
 	$('#inputStartTime').timepicker('setTime', new Date());
 	$('#inputEndTime').timepicker('setTime', new Date());
+
+	/*$(document).on('change', '#org_name', function () {
+		var t = $('#org_name');
+		$('#org_id').val(org_name(t.val()));
+	});*/
+	$(document).on('input', '#org_name', function () {
+		var t = $('#org_name');
+		$('#org_id').val(org_name(t.val()));
+	});
 });
 
 var capitalize = function (string) {
@@ -233,7 +243,7 @@ var dateSort = function (a, b) {
 var editOrgs = function () {
 	'use strict';
 	bootbox.dialog({
-        title: "Login",
+        title: "Edit Orgs",
         message:
         	'<div class="row">' + 
         		'<div class="col-xs-9" style="margin: 0 auto 30px; float: none;"> ' +
@@ -275,4 +285,12 @@ var editOrgs = function () {
             }
         }
     });
+};
+
+var org_name = function (val) {
+	'use strict';
+	var str = val.toLowerCase().trim(),
+		spaceRe = new RegExp(' ', 'g');
+	str = str.replace(spaceRe, '_');
+	return str;
 };
