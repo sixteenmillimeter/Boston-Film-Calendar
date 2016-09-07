@@ -32,6 +32,16 @@ $(document).ready(function () {
 	$('#newEvent').on('click', newEvent);
 
 	$('#inputStart').datepicker();
+	$('#inputEnd').datepicker();
+
+	$('#inputStart').datepicker('setDate', new Date());
+	$('#inputEnd').datepicker('setDate', new Date());
+
+	$('#inputStartTime').timepicker();
+	$('#inputEndTime').timepicker();
+
+	$('#inputStartTime').timepicker('setTime', new Date());
+	$('#inputEndTime').timepicker('setTime', new Date());
 });
 
 var capitalize = function (string) {
@@ -107,6 +117,7 @@ var layoutMonth = function (cal) {
 		title,
 		start_date,
 		i;
+	cal.sort(dateSort);
 	table.empty();
 	for (i = 0; i < cal.length; i++) {
 		elem = $('<tr>');
@@ -179,6 +190,14 @@ var hideForm = function () {
 
 var fillForm = function (obj) {
 	'use strict';
+	var start = moment(Math.round(obj.start_date)).toDate(),
+		end = moment(Math.round(obj.end_date)).toDate();
+
+	$('#inputStart').datepicker('setDate', start);
+	$('#inputEnd').datepicker('setDate', end);
+	$('#inputStartTime').timepicker('setTime', start);
+	$('#inputEndTime').timepicker('setTime', end);
+
 	$('#inputTitle').val(obj.title);
 	$('#inputUrl').val(obj.url);
 	$('#inputCategory option[value="' + obj.org_id + '"]').prop('selected', true);
@@ -204,4 +223,56 @@ var clearForm = function () {
 	$('#inputCategory option:eq(0)').prop('selected', true);
 	$('#inputMute').prop('checked', false);
 	hideForm();
+};
+
+var dateSort = function (a, b) {
+	'use strict';
+	return Math.round(a.start_date) - Math.round(b.start_date);
+};
+
+var editOrgs = function () {
+	'use strict';
+	bootbox.dialog({
+        title: "Login",
+        message:
+        	'<div class="row">' + 
+        		'<div class="col-xs-9" style="margin: 0 auto 30px; float: none;"> ' +
+        			'<select id="org_list" class="form-control"><option>- New Org -</option></select>' + 
+        		'</div>' +
+        	'</div>' +
+        	'<div class="row">  ' +
+            	'<div class="col-xs-8" style="margin: 0 auto; float: none;"> ' +
+            		'<form class="form-horizontal" id="login"> ' +
+            		    '<div class="form-group"> ' +
+            				'<label for="org_name">Org Name</label>' +
+            				'<input type="text" id="org_name" class="form-control"/>' +
+            			'</div> ' +
+            			'<div class="form-group"> ' +
+            				'<label for="org_id">Org ID</label>' +
+            				'<input type="text" id="org_id" class="form-control" readonly/>' +
+            			'</div> ' +
+            			'<div class="form-group"> ' +
+            				'<label for="org_site">Site</label>' +
+            				'<input type="text" id="org_site" class="form-control"/>' +
+            			'</div> ' +
+            			'<div class="form-group"> ' +
+            				'<label for="org_contact_name">Contact Name</label>' +
+            				'<input type="text" id="org_contact_name" class="form-control"/>' +
+            			'</div> ' +
+            			'<div class="form-group"> ' +
+            				'<label for="org_contact_email">Contact Email</label>' +
+            				'<input type="text" id="org_contact_email" class="form-control"/>' +
+            			'</div> ' +
+            		'</form> </div> </div>',
+        buttons: {
+            success: {
+                label: "Save",
+                className: "btn btn-success",
+                callback: function () {
+
+                    return false;
+                }
+            }
+        }
+    });
 };
