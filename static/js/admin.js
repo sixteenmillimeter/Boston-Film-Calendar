@@ -26,7 +26,7 @@ $(document).ready(function () {
 
 	$('#next').on('click', next);
 	$('#prev').on('click', prev);
-	$('#Save').on('click', cancel);
+	$('#Save').on('click', save);
 	$('#Cancel').on('click', cancel);
 	$('#Delete').on('click', del);
 	$('#newEvent').on('click', newEvent);
@@ -157,6 +157,34 @@ var layoutMonth = function (cal) {
 
 var save = function () {
 	'use strict';
+	var type = 'new',
+		obj = {
+			url : '/admin/event',
+			data : getForm(),
+			error : function (err) {
+				console.error(err);
+				alert('Error adding event');
+			}
+		};
+	if ($('#eventForm').hasClass('existing')) {
+		type = 'existing';
+	}
+	if (type === 'new') {
+		obj.type = 'POST';
+		obj.success = function (data) {
+			console.dir(data);
+			clearForm();
+			getMonth();
+		};
+	} else if (type === 'existing') {
+		obj.type = 'PUT';
+		obj.success = function (data) {
+			console.dir(data);
+			clearForm();
+			getMonth();
+		};
+	}
+	$.ajax(obj);
 };
 
 var cancel = function () {
@@ -184,6 +212,8 @@ var newEvent = function () {
 	if (doit) {
 		clearForm();
 		showForm();
+		$('#inputOrgId').val(uuid.v4());
+		$('#eventForm').removeClass('existing').addClass('new');
 		$('#inputTitle').focus();
 	}
 };
@@ -210,34 +240,86 @@ var fillForm = function (obj) {
 
 	$('#inputTitle').val(obj.title);
 	$('#inputUrl').val(obj.url);
-	$('#inputOrg option[value="' + obj.org_id + '"]').prop('selected', true);
+	$('#inputOrg option[value="' + obj.org + '"]').prop('selected', true);
 	$('#inputLocation').val(obj.location);
 	$('#inputDescription').val(obj.description);
 	$('#inputCategory option[value="' + obj.category + '"]').prop('selected', true);
 	if (obj.mute == 1) {
-		$('#inputMute').prop('checked', true);
-	} else if (obj.mute == 0) {
 		$('#inputMute').prop('checked', false);
+	} else if (obj.mute == 0) {
+		$('#inputMute').prop('checked', true);
 	}
+	$('#inputOrgId').val(obj.org_id);
+	$('#inputEventId').val(obj.event_id);
 	$('body').scrollTop(0);
+
+	$('#eventForm').removeClass('new').addClass('existing');
+
 	showForm();
 };
 
 var clearForm = function () {
 	'use strict';
+	var now = new Date();
 	$('#inputTitle').val('');
 	$('#inputUrl').val('');
+
+	$('#inputStart').datepicker('setDate', now);
+	$('#inputEnd').datepicker('setDate', now);
+	$('#inputStartTime').timepicker('setTime', now);
+	$('#inputEndTime').timepicker('setTime', now);
+
 	$('#inputOrg option:eq(0)').prop('selected', true);
 	$('#inputLocation').val('');
 	$('#inputDescription').val('');
 	$('#inputCategory option:eq(0)').prop('selected', true);
 	$('#inputMute').prop('checked', false);
+	$('#inputOrgId').val('');
+	$('#inputEventId').val('blank');
+
+	$('#eventForm').removeClass('new existing');
+
 	hideForm();
 };
 
 var getForm = function () {
 	'use strict';
+	var start,
+		startTime,
+		end,
+		endTime,
+		obj = {};
 
+	start = $('#inputStart').datepicker('getDate');
+	end = $('#inputEnd').datepicker('getDate');
+	startTime = $('#inputStartTime').timepicker('getTime');
+	endTime = $('#inputEndTime').timepicker('getTime');
+
+	start.setHours(startTime.getHours());
+	start.setMinutes(startTime.getMinutes());
+	end.setHours(endTime.getHours());
+	end.setMinutes(endTime.getMinutes());
+
+	obj.start_date = +start;
+	obj.end_date = +end;
+
+	obj.title = $('#inputTitle').val();
+	obj.url = $('#inputUrl').val();
+	obj.org = $('#inputOrg').val();
+	obj.org_id = $('#inputOrgId').val();
+	obj.location = $('#inputLocation').val();
+	obj.description = $('#inputDescription').val();
+	obj.category = $('#inputCategory').val();
+
+	if ($('#inputMute').is(':checked')) {
+		obj.mute = 0;
+	} else{
+		obj.mute = 1;
+	}
+	if ($('#inputEventId').val() !== 'blank') {
+		obj.event_id = $('#inputEventId').val();
+	}
+	return obj;
 };
 
 var dateSort = function (a, b) {
@@ -322,4 +404,14 @@ var org_name = function (val) {
 		spaceRe = new RegExp(' ', 'g');
 	str = str.replace(spaceRe, '_');
 	return str;
+};
+
+var s4  = function () {
+	'use strict';
+    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+};
+var uuid = {};
+uuid.v4 = function () {
+    'use strict';
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 };
