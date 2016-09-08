@@ -30,7 +30,7 @@ body {
 }
 
 .custom-header {
-	padding: 20px 20px 10px 30px;
+	padding: 0 30px;
 	height: 50px;
 	position: relative;
 }
@@ -239,6 +239,7 @@ body {
 	background: -o-linear-gradient(top, rgba(255, 255, 255, 0.15), rgba(0, 0, 0, 0.25)), -o-llinear-gradient(left top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0));
 	background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.15), rgba(0, 0, 0, 0.25)), -ms-linear-gradient(left top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0));
 	background: linear-gradient(top, rgba(255, 255, 255, 0.15), rgba(0, 0, 0, 0.25)), linear-gradient(left top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0));
+	    z-index: -1;
 }
 
 .fc-calendar .fc-row > div > div {
@@ -266,7 +267,10 @@ body {
 }
 
 #page-container{
-	background: rgba(0,0,0, 0.6);
+	background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    min-height: 100%;
+    clear: both;
 }
 
 @media screen and (max-width: 880px) , screen and (max-height: 450px) {
@@ -288,6 +292,9 @@ body {
 		right: auto;
 		height: auto;
 		width: auto;
+	}
+	.custom-header nav {
+	    float: right;
 	}
 
 	.fc-calendar {

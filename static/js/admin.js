@@ -148,11 +148,10 @@ var layoutMonth = function (cal) {
 		elem.append($('<td>').text(cal[i].category));
 		elem.append($('<td>').text(cal[i].org));
 		if (cal[i].mute == 1) {
-			elem.append($('<td>').append($('<input type="checkbox" readonly />')));
+			elem.append($('<td>').append($('<input type="checkbox" disabled />')));
 		} else if (cal[i].mute == 0) {
-			elem.append($('<td>').append($('<input type="checkbox" checked readonly />')));
+			elem.append($('<td>').append($('<input type="checkbox" checked disabled />')));
 		}
-		//elem.append($('<td>').append($('<input type="checkbox">')));
 		table.append(elem);
 	}
 };

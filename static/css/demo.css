@@ -137,3 +137,19 @@ a {
 .fc-content{
 	color: #fff;
 }
+
+.eventTimes{
+	margin-top: 10px;
+	margin-bottom: 0 !important;
+}
+.eventLocation{
+	margin-bottom: 20px;
+}
+.eventType{
+	text-transform: uppercase;
+	margin-left: 5px;
+}
+.eventDescription{
+	font-size: 18px;
+	padding: 10px 0;
+}
