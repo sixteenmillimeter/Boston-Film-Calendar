@@ -113,6 +113,13 @@
 					<input type="text" class="form-control" id="inputTitle" />
 				</div>
 				<div class="form-group">
+					<label for="inputOrgId">
+						Event ID
+					</label>
+					<input type="text" class="form-control" id="inputOrgId" readonly/>
+				</div>
+
+				<div class="form-group">
 					<label for="inputStart">
 						Start
 					</label>
@@ -170,6 +177,7 @@
 						<input type="checkbox" id="inputMute" /> <label for="inputMute">Published</label>
 					</label>
 				</div> 
+				<input type="hidden" id="inputEventId" value="blank"/>
 				<div class="form-group" id="formButtons">
 					<button type="submit" id="Save" class="btn btn-success">
 						Save
