@@ -240,13 +240,14 @@ createEvent = function (req, res, next) {
 	});
 };
 
-createOrg = function () {
+createOrg = function (req, res, next) {
 	'use strict';
-	if ( typeof req.params.org_id !== 'undefined' &&
-		 typeof req.params.name !== 'undefined' &&
-		 typeof req.params.site !== 'undefined' &&
-		 typeof req.params.contact_name !== 'undefined' &&
-		 typeof req.params.contact_email !== 'undefined') {
+
+	if ( typeof req.params.org_id === 'undefined' ||
+		 typeof req.params.name === 'undefined' ||
+	     typeof req.params.site === 'undefined' ||
+		 typeof req.params.contact_name === 'undefined' ||
+		 typeof req.params.contact_email === 'undefined') {
 
 		return next('Invalid request');
 	}
@@ -257,8 +258,12 @@ createOrg = function () {
 		contact_name : req.params.contact_name,
 		contact_email : req.params.contact_email
 	};
+	
 	data.orgs.insert(obj, function (err, results) {
-		if (err) return next(err);
+		if (err) {
+			console.error(err);
+			return next(err);
+		}
 		res.send(results);
 	});
 };
@@ -298,7 +303,7 @@ server.get('/admin/wipeOrgTable', basicAuth, wipeOrgTable);
 server.post('/admin/event', basicAuth, createEvent);
 //server.put('/admin/event', basicAuth, updateEvent);
 
-server.post('/admin/org', basicAuth, createEvent);
+server.post('/admin/org', basicAuth, createOrg);
 
 //
 
