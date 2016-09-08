@@ -32,6 +32,8 @@ $(document).ready(function () {
 	$('#newEvent').on('click', newEvent);
 	$('#editOrgs').on('click', editOrgs);
 
+	$(document).on('change', '#org_list', orgForm);
+
 	$('#inputStart').datepicker();
 	$('#inputEnd').datepicker();
 
@@ -75,7 +77,7 @@ var prev = function () {
 var getOrgs = function () {
 	'use strict';
 	var obj = {
-			url : '/orgs',
+			url : '/admin/orgs',
 			method : 'GET',
 			dataType : 'json',
 			success : function (data) {
@@ -384,6 +386,33 @@ var editOrgs = function () {
             }
         }
     });
+	setTimeout(function () {
+		var org_list = $('#org_list'),
+			elem;
+		org_list.empty();
+		org_list.append($('<option>').text('- New Org -'));
+		for (var i = 0; i < orgs.length; i++) {
+			elem = $('<option>').attr('value', orgs[i].org_id).text(orgs[i].name);
+			elem.data('item', orgs[i]);
+			org_list.append(elem);
+		}
+	}, 500);
+
+};
+
+var orgForm = function () {
+	'use strict';
+	var selector = $('#org_list').val(),
+		item = $('#org_list option[value=' + selector + ']'),
+		obj = item.data('item');
+	console.log(selector);
+	console.log(item);
+	console.log(obj);
+	$('#org_id').val(obj.org_id);
+	$('#org_name').val(obj.name);
+	$('#org_site').val(obj.site);
+	$('#org_contact_name').val(obj.contact_name);
+	$('#org_contact_email').val(obj.contact_email); 
 };
 
 var getOrg = function () {
