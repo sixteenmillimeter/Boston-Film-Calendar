@@ -235,6 +235,11 @@ var clearForm = function () {
 	hideForm();
 };
 
+var getForm = function () {
+	'use strict';
+
+};
+
 var dateSort = function (a, b) {
 	'use strict';
 	return Math.round(a.start_date) - Math.round(b.start_date);
@@ -279,12 +284,36 @@ var editOrgs = function () {
                 label: "Save",
                 className: "btn btn-success",
                 callback: function () {
-
+                	var data = getOrg(),
+                		obj = {
+	                		url : '/admin/org',
+	                		type : 'POST',
+	                		data : data,
+	                		success : function () {
+	                			bootbox.hideAll();
+	                		},
+	                		error : function () {
+	                			alert('Error creating org entry');
+	                		}
+	                	};
+	                $.ajax(obj);
                     return false;
                 }
             }
         }
     });
+};
+
+var getOrg = function () {
+	'use strict';
+	var data = {
+		org_id : $('#org_id').val(),
+		name : $('#org_name').val(),
+		site : $('#org_site').val(),
+		contact_name : $('#org_contact_name').val(),
+		contact_email : $('#org_contact_email').val()
+	};
+	return data;
 };
 
 var org_name = function (val) {
