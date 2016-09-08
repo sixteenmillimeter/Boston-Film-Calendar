@@ -210,7 +210,7 @@ var fillForm = function (obj) {
 
 	$('#inputTitle').val(obj.title);
 	$('#inputUrl').val(obj.url);
-	$('#inputCategory option[value="' + obj.org_id + '"]').prop('selected', true);
+	$('#inputOrg option[value="' + obj.org_id + '"]').prop('selected', true);
 	$('#inputLocation').val(obj.location);
 	$('#inputDescription').val(obj.description);
 	$('#inputCategory option[value="' + obj.category + '"]').prop('selected', true);
