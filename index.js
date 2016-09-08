@@ -20,6 +20,7 @@ var restify = require('restify'),
 	checkUserPassword,
 	admin,
 	createEvent,
+	updateEvent,
 	createOrg;
 
 init = function () {
@@ -207,16 +208,16 @@ scrapeCals = function (req, res, next) {
 createEvent = function (req, res, next) {
 	'use strict';
 
-	if ( typeof req.params.org !== 'undefined' &&
-		 typeof req.params.org_id !== 'undefined' &&
-		 typeof req.params.title !== 'undefined' &&
-		 typeof req.params.url !== 'undefined' &&
-		 typeof req.params.description !== 'undefined' &&
-		 typeof req.params.location !== 'undefined' &&
-		 typeof req.params.category !== 'undefined' &&
-		 typeof req.params.mute !== 'undefined' &&
-		 typeof req.params.start_date !== 'undefined' &&
-		 typeof req.params.end_date !== 'undefined') {
+	if ( typeof req.params.org === 'undefined' ||
+		 typeof req.params.org_id === 'undefined' ||
+		 typeof req.params.title === 'undefined' ||
+		 typeof req.params.url === 'undefined' ||
+		 typeof req.params.description === 'undefined' ||
+		 typeof req.params.location === 'undefined' ||
+		 typeof req.params.category === 'undefined' ||
+		 typeof req.params.mute === 'undefined' ||
+		 typeof req.params.start_date === 'undefined' ||
+		 typeof req.params.end_date === 'undefined') {
 
 		return next('Invalid request');
 	}
@@ -240,6 +241,44 @@ createEvent = function (req, res, next) {
 	});
 };
 
+updateEvent = function (req, res, next) {
+	'use strict';
+
+	if ( typeof req.params.org === 'undefined' ||
+		 typeof req.params.org_id === 'undefined' ||
+		 typeof req.params.title === 'undefined' ||
+		 typeof req.params.url === 'undefined' ||
+		 typeof req.params.description === 'undefined' ||
+		 typeof req.params.location === 'undefined' ||
+		 typeof req.params.category === 'undefined' ||
+		 typeof req.params.mute === 'undefined' ||
+		 typeof req.params.start_date === 'undefined' ||
+		 typeof req.params.end_date === 'undefined' ||
+
+		 typeof req.params.event_id === 'undefined') {
+
+		return next('Invalid request');
+	}
+
+	var obj = {
+		org : req.params.org,
+		org_id : req.params.org_id,
+		title : req.params.title,
+		url : req.params.url,
+		description : req.params.description,
+		location : req.params.location,
+		category : req.params.category,
+		mute : req.params.mute,
+		start_date : req.params.start_date, //millis
+		end_date : req.params.end_date //millis
+	};
+
+	data.cal.update(req.params.event_id, obj, function (err, results) {
+		if (err) return next(err);
+		res.send(results);
+	});
+};
+
 createOrg = function (req, res, next) {
 	'use strict';
 
@@ -258,7 +297,7 @@ createOrg = function (req, res, next) {
 		contact_name : req.params.contact_name,
 		contact_email : req.params.contact_email
 	};
-	
+
 	data.orgs.insert(obj, function (err, results) {
 		if (err) {
 			console.error(err);
@@ -301,7 +340,7 @@ server.get('/admin/createOrgTable', basicAuth, createOrgTable);
 server.get('/admin/wipeOrgTable', basicAuth, wipeOrgTable);
 
 server.post('/admin/event', basicAuth, createEvent);
-//server.put('/admin/event', basicAuth, updateEvent);
+server.put('/admin/event', basicAuth, updateEvent);
 
 server.post('/admin/org', basicAuth, createOrg);
 
