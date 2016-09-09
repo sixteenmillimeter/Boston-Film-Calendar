@@ -21,7 +21,9 @@ var restify = require('restify'),
 	admin,
 	createEvent,
 	updateEvent,
-	createOrg;
+	createOrg,
+	scrapeCals,
+	scrapeCutoff;
 
 init = function () {
 	'use strict';
@@ -169,8 +171,22 @@ adminOrgs = function (req, res, next) {
 	});
 };
 
+scrapeCutoff = function () {
+	'use strict';
+	var now = new Date(),
+		lastMonth = now.getMonth() - 1;
+	if (lastMonth < 0) lastMonth = 11;
+	now.setDate(1);
+	now.setHours(0);
+	now.setMinutes(0);
+	now.setMonth(lastMonth);
+	console.log(now);
+	return +now;
+};
+
 scrapeCals = function (req, res, next) {
 	'use strict';
+	var cutoff = scrapeCutoff();
 	scrape.gcals(gcals, function (err, d) {
 		if (err) {
 			console.log(err);
@@ -181,25 +197,27 @@ scrapeCals = function (req, res, next) {
 			added = 0,
 			eventObj,
 			errs = [],
-			n = function () {
-				i++;
-				if (i === d.length) {
-					res.send({total: d.length, added: added, err: errs});
-					return next();
+			
+		n = function () {
+			i++;
+			if (i === d.length) {
+				res.send({total: d.length, added: added, err: errs});
+				return next();
+			}
+			eventObj = data.cal.gcalFields(d[i]);
+			if (eventObj.start_date < cutoff) return n();
+			data.cal.insert(eventObj, function (err, result) {
+				if (err) {
+					errs.push(err);
+					console.log('Error adding to database');
+					console.log(JSON.stringify(err));
+				} else {
+					added++;
+					console.log(JSON.stringify(result));
 				}
-				eventObj = data.cal.gcalFields(d[i]);
-				data.cal.insert(eventObj, function (err, result) {
-					if (err) {
-						errs.push(err);
-						console.log('Error adding to database');
-						console.log(JSON.stringify(err));
-					} else {
-						added++;
-						console.log(JSON.stringify(result));
-					}
-					n();
-				})
-			};
+				n();
+			})
+		};
 		n();
 		
 	});
