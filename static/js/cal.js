@@ -96,7 +96,7 @@ $(function() {
 			//obj[dateStr] = dateToTime(date) + ' - ' + arr[i].title;
 			obj[dateStr] = '<span id="event_' + arr[i].event_id + '" class="eventViewable">' + dateToTime(date) + ' - ' + arr[i].title + '</span>';
 			ev['event_' + arr[i].event_id] = arr[i];
-			console.log(obj);
+			//console.log(obj);
 			cal.setData(obj);
 		}
 	};

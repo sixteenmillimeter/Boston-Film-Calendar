@@ -15,7 +15,8 @@ var months = [
 ];
 
 var position,
-	orgs = [];
+	orgs = [],
+	orgKeys = {};
 
 $(document).ready(function () {
 	position = moment();
@@ -82,6 +83,10 @@ var getOrgs = function () {
 			dataType : 'json',
 			success : function (data) {
 				orgs = data.orgs;
+				orgKeys = {};
+				for (var i = 0; i < orgs.length; i++) {
+					orgKeys[orgs[i].org_id] = orgs[i].name;
+				}
 				layoutOrgs(orgs);
 			},
 			error : function (err) {
@@ -131,7 +136,8 @@ var layoutMonth = function (cal) {
 		elem,
 		title,
 		start_date,
-		i;
+		i,
+		orgName;
 	cal.sort(dateSort);
 	table.empty();
 	for (i = 0; i < cal.length; i++) {
@@ -149,7 +155,10 @@ var layoutMonth = function (cal) {
 		elem.append(title);
 		elem.append($('<td>').text(start_date.format('hh:mm a')));
 		elem.append($('<td>').text(cal[i].category));
-		elem.append($('<td>').text(cal[i].org));
+		console.log(cal[i].org);
+		orgName = orgKeys[cal[i].org];
+
+		elem.append($('<td>').text(orgName));
 		if (cal[i].mute == 1) {
 			elem.append($('<td>').append($('<input type="checkbox" disabled />')));
 		} else if (cal[i].mute == 0) {
