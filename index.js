@@ -186,7 +186,10 @@ scrapeCutoff = function () {
 
 scrapeCals = function (req, res, next) {
 	'use strict';
-	var cutoff = scrapeCutoff();
+	var cutoff = scrapeCutoff(),
+		added = 0,
+		eventObj,
+		errs = [];
 	scrape.gcals(gcals, function (err, d) {
 		if (err) {
 			console.log(err);
@@ -194,23 +197,22 @@ scrapeCals = function (req, res, next) {
 		}
 		//console.log(JSON.stringify(d));
 		var i = -1,
-			added = 0,
-			eventObj,
-			errs = [],
-			
 		n = function () {
 			i++;
 			if (i === d.length) {
-				res.send({total: d.length, added: added, err: errs});
-				return next();
+				return scrape.agx(scrapeAgxCb);
 			}
 			eventObj = data.cal.gcalFields(d[i]);
 			if (eventObj.start_date < cutoff) return n();
 			data.cal.insert(eventObj, function (err, result) {
 				if (err) {
-					errs.push(err);
-					console.log('Error adding to database');
-					console.log(JSON.stringify(err));
+					if (err.code == 23505) {
+						console.log('Event already exists');
+					} else {
+						console.log('Error adding to database');
+						console.log(JSON.stringify(err));
+						errs.push(err);
+					}
 				} else {
 					added++;
 					console.log(JSON.stringify(result));
@@ -221,6 +223,39 @@ scrapeCals = function (req, res, next) {
 		n();
 		
 	});
+	var scrapeAgxCb = function (err, d) {
+		if (err) {
+			console.error(err);
+			return next(err);
+		}
+		var i = -1,
+		n = function () {
+			i++;
+			if (i == d.events.length) {
+				res.send({total: d.length, added: added, err: errs});
+				return next();
+			}
+			eventObj = data.cal.agx(d.events[i].event);
+			if (eventObj.start_date < cutoff) return n();
+			console.log(eventObj);
+			data.cal.insert(eventObj, function (err, result) {
+				if (err) {
+					if (err.code == 23505) {
+						console.log('Event already exists');
+					} else {
+						console.log('Error adding to database');
+						console.log(JSON.stringify(err));
+						errs.push(err);
+					}
+				} else {
+					added++;
+					console.log(JSON.stringify(result));
+				}
+				n();
+			});
+		};
+		n();
+	};
 };
 
 createEvent = function (req, res, next) {
