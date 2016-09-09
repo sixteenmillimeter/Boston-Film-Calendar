@@ -96,6 +96,9 @@ var layoutOrgs = function (list) {
 	var i,
 		elem,
 		container = $('#inputOrg');
+	container.empty();
+	elem = $('<option>').text(' - Select Org - ');
+	container.append(elem);
 	for (i = 0; i < list.length; i++) {
 		elem = $('<option>').attr('value', list[i].org_id).text(list[i].name);
 		container.append(elem);
@@ -374,6 +377,7 @@ var editOrgs = function () {
 	                		data : data,
 	                		success : function () {
 	                			bootbox.hideAll();
+	                			getOrgs();
 	                		},
 	                		error : function () {
 	                			alert('Error creating org entry');
