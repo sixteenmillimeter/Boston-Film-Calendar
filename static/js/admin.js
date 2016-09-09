@@ -418,8 +418,6 @@ var orgForm = function () {
 	var selector = $('#org_list').val(),
 		item = $('#org_list option[value=' + selector + ']'),
 		obj = item.data('item');
-	console.log(selector);
-	console.log(item);
 	console.log(obj);
 	$('#org_id').val(obj.org_id);
 	$('#org_name').val(obj.name);
