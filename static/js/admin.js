@@ -20,8 +20,7 @@ var position,
 
 $(document).ready(function () {
 	position = moment();
-	getMonth();
-	getOrgs();
+	getOrgs(getMonth);
 
 	$('#year').text(moment().format('YYYY'));
 
@@ -75,7 +74,7 @@ var prev = function () {
 	getMonth();
 };
 
-var getOrgs = function () {
+var getOrgs = function (cb) {
 	'use strict';
 	var obj = {
 			url : '/admin/orgs',
@@ -88,6 +87,7 @@ var getOrgs = function () {
 					orgKeys[orgs[i].org_id] = orgs[i].name;
 				}
 				layoutOrgs(orgs);
+				if (cb) cb();
 			},
 			error : function (err) {
 				console.error(err);
@@ -138,6 +138,7 @@ var layoutMonth = function (cal) {
 		start_date,
 		i,
 		orgName;
+
 	cal.sort(dateSort);
 	table.empty();
 	for (i = 0; i < cal.length; i++) {
@@ -155,10 +156,10 @@ var layoutMonth = function (cal) {
 		elem.append(title);
 		elem.append($('<td>').text(start_date.format('hh:mm a')));
 		elem.append($('<td>').text(cal[i].category));
-		console.log(cal[i].org);
-		orgName = orgKeys[cal[i].org];
 
+		orgName = orgKeys[cal[i].org] || cal[i].org;
 		elem.append($('<td>').text(orgName));
+
 		if (cal[i].mute == 1) {
 			elem.append($('<td>').append($('<input type="checkbox" disabled />')));
 		} else if (cal[i].mute == 0) {
