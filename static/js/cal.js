@@ -88,20 +88,56 @@ $(function() {
 	var addToCalendar = function (arr) {
 		'use strict';
 		var obj = {},
+			elem = [],
 			date,
+			dateNo,
 			dateStr,
-			i;
+			i,
+			days = {},
+			daysLength = 0,
+			lastDay = 1;
+		arr.sort(function (a, b) {
+			var dateA = new Date(Math.round(a.start_date)),
+				dateB = new Date(Math.round(b.start_date));
+			return dateA.getDate() - dateB.getDate();
+		});
+		console.log(arr);
 		for (i = 0; i < arr.length; i++) {
-			if (arr[i].mute == 1) continue;
-			obj = {};
 			date = new Date(Math.round(arr[i].start_date));
-			dateStr = dateToMDY(date);
-			//obj[dateStr] = dateToTime(date) + ' - ' + arr[i].title;
-			obj[dateStr] = '<span id="event_' + arr[i].event_id + '" class="eventViewable" title="' + arr[i].title + '"><i>' + dateToTimeRedux(date) + ' - </i>' + arr[i].title + '</span>';
-			ev['event_' + arr[i].event_id] = arr[i];
+			dateNo = date.getDate();
+			if (lastDay !== dateNo) {
+				if (elem.length !== 0) {
+					days[lastDay] = elem;
+					daysLength++;
+				}
+				lastDay = dateNo;
+				elem = [];
+			}	
+			elem.push(arr[i]);
+		}
+		for (i = 0; i < daysLength; i++) {
+			obj = groupEvent(days[i]);
 			//console.log(obj);
 			cal.setData(obj);
 		}
+	};
+
+	var groupEvent = function (events) {
+		var obj = {},
+			html = '',
+			i;
+		if (typeof events === 'undefined') return false;
+
+		date = new Date(Math.round(events[0].start_date)); 
+		dateStr = dateToMDY(date);
+
+		for (i = 0; i < events.length; i++) {
+			html +='<span id="event_' + events[i].event_id + '" class="eventViewable" title="' + events[i].title + '"><i>' + dateToTimeRedux(new Date(Math.round(events[i].start_date))) + ' - </i>' + events[i].title + '</span>';
+			ev['event_' + events[i].event_id] = events[i];
+		}
+
+		obj[dateStr] = html;
+		return obj;
 	};
 
 	var dateToMDY = function (date) {
