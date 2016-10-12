@@ -97,7 +97,7 @@ $(function() {
 			date = new Date(Math.round(arr[i].start_date));
 			dateStr = dateToMDY(date);
 			//obj[dateStr] = dateToTime(date) + ' - ' + arr[i].title;
-			obj[dateStr] = '<span id="event_' + arr[i].event_id + '" class="eventViewable" title="' + arr[i].title + '"><i>' + dateToTime(date) + ' - </i>' + arr[i].title + '</span>';
+			obj[dateStr] = '<span id="event_' + arr[i].event_id + '" class="eventViewable" title="' + arr[i].title + '"><i>' + dateToTimeRedux(date) + ' - </i>' + arr[i].title + '</span>';
 			ev['event_' + arr[i].event_id] = arr[i];
 			//console.log(obj);
 			cal.setData(obj);
@@ -116,6 +116,13 @@ $(function() {
 			m = date.getMinutes(),
 			p = h < 13 ? 'AM' : 'PM';
 		return '' + (h < 13 ? h : h - 12) + ':' + ( m <= 9 ? '0' + m : m) + p;
+	};
+
+	var dateToTimeRedux = function (date) {
+		var h = date.getHours(),
+			m = date.getMinutes(),
+			p = h < 13 ? 'A' : 'P';
+		return '' + (h < 13 ? h : h - 12) + ':' + ( m == 0 ? '' : ':' + m) + p;
 	};
 
 	var displayEvent = function (obj) {
