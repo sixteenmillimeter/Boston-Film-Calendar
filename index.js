@@ -21,6 +21,7 @@ var restify = require('restify'),
 	admin,
 	createEvent,
 	updateEvent,
+	delEvent,
 	createOrg,
 	scrapeCals,
 	scrapeCutoff;
@@ -360,6 +361,11 @@ createOrg = function (req, res, next) {
 	});
 };
 
+delEvent = function (req, res, next) {
+	'use strict';
+
+};
+
 server = restify.createServer({
 	name: 'bostonfilm',
 	version: '1.0.0'
@@ -394,6 +400,7 @@ server.get('/admin/wipeOrgTable', basicAuth, wipeOrgTable);
 
 server.post('/admin/event', basicAuth, createEvent);
 server.put('/admin/event', basicAuth, updateEvent);
+server.del('/admin/event', basicAuth, delEvent);
 
 server.post('/admin/org', basicAuth, createOrg);
 
