@@ -122,7 +122,7 @@ $(function() {
 		var h = date.getHours(),
 			m = date.getMinutes(),
 			p = h < 13 ? 'A' : 'P';
-		return '' + (h < 13 ? h : h - 12) + ':' + ( m == 0 ? '' : ':' + m) + p;
+		return '' + (h < 13 ? h : h - 12) + ( m == 0 ? '' : ':' + m) + p;
 	};
 
 	var displayEvent = function (obj) {
