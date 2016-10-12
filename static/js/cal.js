@@ -16,6 +16,8 @@ $(function() {
 		orgs = {},
 		ev = {};
 
+	console.log(cal.setData + '');
+
 	$( '#custom-next' ).on( 'click', function() {
 		cal.gotoNextMonth( updateMonthYear );
 	} );
