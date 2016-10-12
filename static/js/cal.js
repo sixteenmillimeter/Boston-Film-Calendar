@@ -17,6 +17,7 @@ $(function() {
 		ev = {};
 
 	console.log(cal.setData + '');
+	console.log(cal._generateTemplate + '');
 
 	$( '#custom-next' ).on( 'click', function() {
 		cal.gotoNextMonth( updateMonthYear );
