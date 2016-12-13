@@ -115,7 +115,8 @@ $(function() {
 			elem.push(arr[i]);
 			if (i === arr.length - 1) {
 				console.log('last elem in arr');
-				console.log(elem)
+				console.log(lastDay);
+				console.log(elem);
 			}
 		}
 		dayKeys = Object.keys(days);
