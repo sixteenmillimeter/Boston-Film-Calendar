@@ -159,8 +159,9 @@ a {
 	z-index: 1000;
 }
 
-.fc-content:hover .eventViewable{
+.fc-content .eventViewable:hover{
 	max-width: none;
 	background: #333;
 	z-index: 1000;
+	color: #e9ff80;
 }
