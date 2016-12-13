@@ -94,7 +94,7 @@ $(function() {
 			dateStr,
 			i,
 			days = {},
-			daysLength = 0,
+			dayKeys,
 			lastDay = 1;
 		arr.sort(function (a, b) {
 			var dateA = new Date(Math.round(a.start_date)),
@@ -108,17 +108,15 @@ $(function() {
 			if (lastDay !== dateNo) {
 				if (elem.length !== 0) {
 					days[lastDay] = elem;
-					daysLength++;
 				}
 				lastDay = dateNo;
 				elem = [];
 			}	
 			elem.push(arr[i]);
 		}
-		console.log('daysLength = ' + daysLength);
-		console.dir(days);
-		for (i = 0; i < daysLength; i++) {
-			obj = groupEvent(days[i]);
+		dayKeys = Object.keys(days);
+		for (i = 0; i < dayKeys.length; i++) {
+			obj = groupEvent(days[dayKeys[i]]);
 			//console.log(obj);
 			cal.setData(obj);
 		}
