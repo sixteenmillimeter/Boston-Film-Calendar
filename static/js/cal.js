@@ -116,6 +116,7 @@ $(function() {
 			elem.push(arr[i]);
 		}
 		console.log('daysLength = ' + daysLength);
+		console.dir(days);
 		for (i = 0; i < daysLength; i++) {
 			obj = groupEvent(days[i]);
 			//console.log(obj);
