@@ -113,8 +113,11 @@ $(function() {
 				elem = [];
 			}	
 			elem.push(arr[i]);
+			if (i === arr.length - 1) {
+				console.log('last elem in arr');
+				console.log(elem)
+			}
 		}
-		console.log(days);
 		dayKeys = Object.keys(days);
 		for (i = 0; i < dayKeys.length; i++) {
 			obj = groupEvent(days[dayKeys[i]]);
