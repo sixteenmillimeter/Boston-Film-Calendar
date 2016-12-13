@@ -114,6 +114,7 @@ $(function() {
 			}	
 			elem.push(arr[i]);
 		}
+		console.log(days);
 		dayKeys = Object.keys(days);
 		for (i = 0; i < dayKeys.length; i++) {
 			obj = groupEvent(days[dayKeys[i]]);
