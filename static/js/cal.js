@@ -112,11 +112,12 @@ $(function() {
 				lastDay = dateNo;
 				elem = [];
 			}	
+			
 			elem.push(arr[i]);
-			if (i === arr.length - 1) {
-				console.log('last elem in arr');
-				console.log(lastDay);
-				console.log(elem);
+
+			if (i === arr.length - 1 
+				&& elem.length > 0) { //unnecessary
+				days[lastDay] = elem;
 			}
 		}
 		dayKeys = Object.keys(days);
