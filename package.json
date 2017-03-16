@@ -1,7 +1,7 @@
 {
   "name": "bostonfilm",
   "version": "1.0.0",
-  "description": "",
+  "description": "Calendar for aggregating events in Boston's film community.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
