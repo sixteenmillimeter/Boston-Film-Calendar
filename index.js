@@ -1,7 +1,7 @@
 var restify = require('restify'),
 	port = process.env.PORT || 8080,
 
-	util = require('./lib/util.js'),
+	util = require('./lib/util'),
 	data = require('./lib/data.js'),
 	scrape = require('./lib/scrape.js'),
 	gcals = util.json('./data/gcals.json'),
