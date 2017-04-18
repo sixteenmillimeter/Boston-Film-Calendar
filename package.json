@@ -8,6 +8,12 @@
   },
   "author": "mmcwilliams",
   "license": "MIT",
+  "jshintConfig": {
+    "esversion": 6,
+    "strict": "global",
+    "node": true,
+    "asi": true
+  },
   "dependencies": {
     "cheerio": "^0.20.0",
     "crypto": "0.0.3",
