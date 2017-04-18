@@ -1,267 +1,240 @@
-var restify = require('restify'),
-	port = process.env.PORT || 8080,
+'use strict'
+const restify = require('restify')
+const port = process.env.PORT || 8080
 
-	util = require('./lib/util'),
-	data = require('./lib/data.js'),
-	scrape = require('./lib/scrape.js'),
-	gcals = util.json('./data/gcals.json'),
+const util = require('./lib/util')
+const data = require('./lib/data.js')
+const scrape = require('./lib/scrape')
+const gcals = require('./data/gcals.json')
 
-	server,
-	init,
-	index,
-	calendar,
-	orgs,
-	adminOrgs,
-	createEventTable,
-	wipeEventTable,
-	createOrgTable,
-	wipeOrgTable,
-	basicAuth,
-	checkUserPassword,
-	admin,
-	createEvent,
-	updateEvent,
-	delEvent,
-	createOrg,
-	scrapeCals,
-	scrapeCutoff;
-
-init = function () {
-	'use strict';
-	console.log('Initializing ' + server.name);
-	data.init(function () {
+function init () {
+	console.log(`Initializing ${server.name}`)
+	data.init(() => {
 		//
-	});
-};
+	})
+}
 
-index = function (req, res, next) {
-	'use strict';
-	console.log('Page "index" requested at ' + req.path());
-	res.end(util.page('index', './views/index.html'));
-	return next();
-};
+function index (req, res, next) {
+	console.log(`Page "index" requested at ${req.path()}`)
+	res.end(util.page('index', './views/index.html'))
+	return next()
+}
 
-admin = function (req, res, next) {
-	res.end(util.page('admin', './views/admin.html'));
-	return next();
-};
+function admin (req, res, next) {
+	res.end(util.page('admin', './views/admin.html'))
+	return next()
+}
 
-createEventTable = function (req, res, next) {
-	'use strict';
-	data.cal.create(function (err, data) {
+function createEventTable (req, res, next) {
+	data.cal.create((err, data) => {
 		if (err) {
-			console.log(err);
-			return next(err);
+			console.log(err)
+			return next(err)
 		}
-		console.log(data);
-		res.send(data);
-		return next();
-	});
-};
+		console.log(data)
+		res.send(data)
+		return next()
+	})
+}
 
-wipeEventTable = function (req, res, next) {
-	'use strict';
-	data.cal.wipe(function (err, data) {
+function wipeEventTable(req, res, next) {
+	data.cal.wipe((err, data) => {
 		if (err) {
-			console.log(err);
-			return next(err);
+			console.log(err)
+			return next(err)
 		}
-		console.log(data);
-		res.send(data);
-		return next();
-	});
-};
+		console.log(data)
+		res.send(data)
+		return next()
+	})
+}
 
-createOrgTable = function (req, res, next) {
-	'use strict';
-	data.orgs.create(function (err, data) {
+function createOrgTable (req, res, next) {
+	data.orgs.create((err, data) => {
 		if (err) {
-			console.log(err);
-			return next(err);
+			console.log(err)
+			return next(err)
 		}
-		console.log(data);
-		res.send(data);
-		return next();
-	});
-};
+		console.log(data)
+		res.send(data)
+		return next()
+	})
+}
 
-wipeOrgTable = function (req, res, next) {
-	'use strict';
-	data.orgs.wipe(function (err, data) {
+function wipeOrgTable (req, res, next) {
+	data.orgs.wipe((err, data) => {
 		if (err) {
-			console.log(err);
-			return next(err);
+			console.log(err)
+			return next(err)
 		}
-		console.log(data);
-		res.send(data);
-		return next();
-	});
-};
+		console.log(data)
+		res.send(data)
+		return next()
+	})
+}
 
-basicAuth = function(req, res, next){                                       
-	res.header('WWW-Authenticate','Basic realm="Admin Console"');            
+function basicAuth (req, res, next) {                                       
+	res.header('WWW-Authenticate','Basic realm="Admin Console"')          
 
 	if (!req.authorization ||                                                       
 		!req.authorization.basic ||                                                 
 		!req.authorization.basic.password){   
 
-		res.send(401);                                                              
-		return next(false);                                                         
+		res.send(401)                                                             
+		return next(false)                                                      
 	}                                                                             
 
-	checkUserPassword(req.authorization.basic.password, function(err, data){        
+	checkUserPassword(req.authorization.basic.password, (err, data) => {        
 		if (err || !data) {                                                          
-			res.send(401);                                                            
-			return next(false);                                                       
+			res.send(401)                                                         
+			return next(false)                                                     
 		} else {
-			return next();  
+			return next()
 		}                                                       
-	});                                                                           
-};
+	})                                                                        
+}
 
-checkUserPassword = function (pw, cb) {
-	'use strict';
+function checkUserPassword (pw, cb) {
 	if (pw === process.env.ADMIN_PW) {
-		return cb(null, true);
+		return cb(null, true)
 	}
-	return cb('Error');
-};
+	return cb('Error')
+}
 
-calendar = function (req, res, next) {
-	'use strict';
+function calendar (req, res, next) {
 	if (req.params
 		&& typeof req.params.month !== 'undefined'
 		&& typeof req.params.year !== 'undefined') {
-		data.cal.getMonth(req.params.month, req.params.year, function (err, data) {
+		data.cal.getMonth(req.params.month, req.params.year, (err, data) => {
 			if (err) {
-				return next(err);
+				return next(err)
 			}
-			res.send({calendar: data});
-			return next();
-		});
+			res.send({calendar: data})
+			return next()
+		})
 	} else {
-		data.cal.getAll(function (err, data) {
+		data.cal.getAll((err, data) => {
 			if (err) {
-				return next(err);
+				return next(err)
 			}
-			res.send({calendar: data});
-			return next();
-		});	
+			res.send({calendar: data})
+			return next()
+		})
 	}
 };
 
-orgs = function (req, res, next) {
-	'use strict';
-	data.orgs.getAllPublic(function (err, data) {
+function orgs (req, res, next) {
+	data.orgs.getAllPublic((err, data) => {
 		if (err) {
-			return next(err);
+			return next(err)
 		}
-		res.send({orgs: data});
-		return next();
-	});
-};
+		res.send({orgs: data})
+		return next()
+	})
+}
 
-adminOrgs = function (req, res, next) {
-	'use strict';
-	data.orgs.getAll(function (err, data) {
+function adminOrgs (req, res, next) {
+	data.orgs.getAll((err, data) => {
 		if (err) {
-			return next(err);
+			return next(err)
 		}
-		res.send({orgs: data});
-		return next();
-	});
-};
+		res.send({orgs: data})
+		return next()
+	})
+}
 
-scrapeCutoff = function () {
-	'use strict';
-	var now = new Date(),
-		lastMonth = now.getMonth() - 1;
-	if (lastMonth < 0) lastMonth = 11;
-	now.setDate(1);
-	now.setHours(0);
-	now.setMinutes(0);
-	now.setMonth(lastMonth);
-	console.log(now);
-	return +now;
-};
+function scrapeCutoff () {
+	const now = new Date()
+	const lastMonth = now.getMonth() - 1
 
-scrapeCals = function (req, res, next) {
-	'use strict';
-	var cutoff = scrapeCutoff(),
-		added = 0,
-		eventObj,
-		errs = [];
-	scrape.gcals(gcals, function (err, d) {
+	if (lastMonth < 0) lastMonth = 11
+
+	now.setDate(1)
+	now.setHours(0)
+	now.setMinutes(0)
+	now.setMonth(lastMonth)
+	console.log(now)
+	return +now
+}
+
+function scrapeCals (req, res, next) {
+	const cutoff = scrapeCutoff()
+
+	let added = 0
+	let eventObj
+	let errs = []
+
+	scrape.gcals(gcals, (err, d) => {
+		let i = -1
+
 		if (err) {
-			console.log(err);
-			return next(err);
+			console.log(err)
+			return next(err)
 		}
-		//console.log(JSON.stringify(d));
-		var i = -1,
-		n = function () {
-			i++;
+
+		const n = () => {
+			i++
 			if (i === d.length) {
-				return scrape.agx(scrapeAgxCb);
+				return scrape.agx(scrapeAgxCb)
 			}
-			eventObj = data.cal.gcalFields(d[i]);
-			if (eventObj.start_date < cutoff) return n();
-			data.cal.insert(eventObj, function (err, result) {
+			eventObj = data.cal.gcalFields(d[i])
+			if (eventObj.start_date < cutoff) return n()
+			data.cal.insert(eventObj, (err, result) => {
 				if (err) {
 					if (err.code == 23505) {
-						console.log('Event already exists');
+						console.log('Event already exists')
 					} else {
-						console.log('Error adding to database');
-						console.log(JSON.stringify(err));
-						errs.push(err);
+						console.log('Error adding to database')
+						console.log(JSON.stringify(err))
+						errs.push(err)
 					}
 				} else {
-					added++;
-					console.log(JSON.stringify(result));
+					added++
+					console.log(JSON.stringify(result))
 				}
-				n();
+				n()
 			})
-		};
-		n();
-		
-	});
-	var scrapeAgxCb = function (err, d) {
-		if (err) {
-			console.error(err);
-			return next(err);
 		}
-		var i = -1,
-		n = function () {
-			i++;
+		n()	
+	})
+
+	const scrapeAgxCb = (err, d) => {
+		let i = -1
+		if (err) {
+			console.error(err)
+			return next(err)
+		}
+		const n = () => {
+			i++
 			if (i == d.events.length) {
-				res.send({total: d.length, added: added, err: errs});
-				return next();
+				res.send({total: d.length, added: added, err: errs})
+				return next()
 			}
-			eventObj = data.cal.agx(d.events[i].event);
-			if (eventObj.start_date < cutoff) return n();
-			console.log(eventObj);
-			data.cal.insert(eventObj, function (err, result) {
+			eventObj = data.cal.agx(d.events[i].event)
+			if (eventObj.start_date < cutoff) return n()
+			console.log(eventObj)
+			data.cal.insert(eventObj, (err, result) => {
 				if (err) {
 					if (err.code == 23505) {
-						console.log('Event already exists');
+						console.log('Event already exists')
 					} else {
-						console.log('Error adding to database');
-						console.log(JSON.stringify(err));
-						errs.push(err);
+						console.log('Error adding to database')
+						console.log(JSON.stringify(err))
+						errs.push(err)
 					}
 				} else {
-					added++;
-					console.log(JSON.stringify(result));
+					added++
+					console.log(JSON.stringify(result))
 				}
-				n();
-			});
-		};
-		n();
-	};
-};
+				n()
+			})
+		}
+		n()
+	}
 
-createEvent = function (req, res, next) {
-	'use strict';
+}
 
+function createEvent (req, res, next) {
 	if ( typeof req.params.org === 'undefined' ||
 		 typeof req.params.org_id === 'undefined' ||
 		 typeof req.params.title === 'undefined' ||
@@ -276,7 +249,7 @@ createEvent = function (req, res, next) {
 		return next('Invalid request');
 	}
 
-	var obj = {
+	let obj = {
 		org : req.params.org,
 		org_id : req.params.org_id,
 		title : req.params.title,
@@ -287,17 +260,16 @@ createEvent = function (req, res, next) {
 		mute : req.params.mute,
 		start_date : req.params.start_date, //millis
 		end_date : req.params.end_date //millis
-	};
+	}
 
-	data.cal.insert(obj, function (err, results) {
-		if (err) return next(err);
-		res.send(results);
-	});
-};
+	data.cal.insert(obj, (err, results) => {
+		if (err) return next(err)
+		res.send(results)
+		return next()
+	})
+}
 
-updateEvent = function (req, res, next) {
-	'use strict';
-
+function updateEvent (req, res, next) {
 	if ( typeof req.params.org === 'undefined' ||
 		 typeof req.params.org_id === 'undefined' ||
 		 typeof req.params.title === 'undefined' ||
@@ -308,7 +280,6 @@ updateEvent = function (req, res, next) {
 		 typeof req.params.mute === 'undefined' ||
 		 typeof req.params.start_date === 'undefined' ||
 		 typeof req.params.end_date === 'undefined' ||
-
 		 typeof req.params.event_id === 'undefined') {
 
 		return next('Invalid request');
@@ -325,17 +296,15 @@ updateEvent = function (req, res, next) {
 		mute : req.params.mute,
 		start_date : req.params.start_date, //millis
 		end_date : req.params.end_date //millis
-	};
+	}
 
-	data.cal.update(req.params.event_id, obj, function (err, results) {
-		if (err) return next(err);
-		res.send(results);
-	});
-};
+	data.cal.update(req.params.event_id, obj, (err, results) => {
+		if (err) return next(err)
+		res.send(results)
+	})
+}
 
-createOrg = function (req, res, next) {
-	'use strict';
-
+function createOrg (req, res, next) {
 	if ( typeof req.params.org_id === 'undefined' ||
 		 typeof req.params.name === 'undefined' ||
 	     typeof req.params.site === 'undefined' ||
@@ -344,41 +313,39 @@ createOrg = function (req, res, next) {
 
 		return next('Invalid request');
 	}
-	var obj = {
+	let obj = {
 		org_id : req.params.org_id,
 		name : req.params.name,
 		site : req.params.site,
 		contact_name : req.params.contact_name,
 		contact_email : req.params.contact_email
-	};
-
-	data.orgs.insert(obj, function (err, results) {
+	}
+	data.orgs.insert(obj, (err, results) => {
 		if (err) {
-			console.error(err);
-			return next(err);
+			console.error(err)
+			return next(err)
 		}
-		res.send(results);
-	});
-};
+		res.send(results)
+	})
+}
 
-delEvent = function (req, res, next) {
-	'use strict';
+function delEvent (req, res, next) {
+	return next()
+}
 
-};
-
-server = restify.createServer({
+const server = restify.createServer({
 	name: 'bostonfilm',
 	version: '1.0.0'
-});
+})
 
-server.use(restify.acceptParser(server.acceptable));
-server.use(restify.queryParser());
-server.use(restify.bodyParser());
-server.use(restify.authorizationParser());
+server.use(restify.acceptParser(server.acceptable))
+server.use(restify.queryParser())
+server.use(restify.bodyParser())
+server.use(restify.authorizationParser())
 
 server.get(/\/static\/?.*/, restify.serveStatic({
 	directory : __dirname
-}));
+}))
 
 server.get('/', index);
 
