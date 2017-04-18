@@ -102,9 +102,7 @@ function checkUserPassword (pw, cb) {
 }
 
 function calendar (req, res, next) {
-	if (req.params
-		&& typeof req.params.month !== 'undefined'
-		&& typeof req.params.year !== 'undefined') {
+	if (req.params && typeof req.params.month !== 'undefined' && typeof req.params.year !== 'undefined') {
 		data.cal.getMonth(req.params.month, req.params.year, (err, data) => {
 			if (err) {
 				return next(err)
@@ -121,7 +119,7 @@ function calendar (req, res, next) {
 			return next()
 		})
 	}
-};
+}
 
 function orgs (req, res, next) {
 	data.orgs.getAllPublic((err, data) => {
@@ -145,7 +143,7 @@ function adminOrgs (req, res, next) {
 
 function scrapeCutoff () {
 	const now = new Date()
-	const lastMonth = now.getMonth() - 1
+	let lastMonth = now.getMonth() - 1
 
 	if (lastMonth < 0) lastMonth = 11
 
@@ -158,6 +156,8 @@ function scrapeCutoff () {
 }
 
 function scrapeCals (req, res, next) {
+	console.log(`Starting scraping job`)
+
 	const cutoff = scrapeCutoff()
 
 	let added = 0
@@ -165,16 +165,16 @@ function scrapeCals (req, res, next) {
 	let errs = []
 
 	scrape.gcals(gcals, (err, d) => {
+		console.log(`Retreived gcal data`)
 		let i = -1
-
 		if (err) {
 			console.log(err)
 			return next(err)
 		}
-
 		const n = () => {
 			i++
 			if (i === d.length) {
+				console.log(`Scraping AgX`)
 				return scrape.agx(scrapeAgxCb)
 			}
 			eventObj = data.cal.gcalFields(d[i])
@@ -199,6 +199,7 @@ function scrapeCals (req, res, next) {
 	})
 
 	const scrapeAgxCb = (err, d) => {
+		console.log(`Retreived AgX data`)
 		let i = -1
 		if (err) {
 			console.error(err)
@@ -376,6 +377,5 @@ server.post('/admin/org', basicAuth, createOrg);
 init();
 
 server.listen(port, function () {
-	'use strict';
-	console.log('%s listening at %s', server.name, server.url);
+	console.log(`${server.name} listening at ${server.url}`)
 });
