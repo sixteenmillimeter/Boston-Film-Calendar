@@ -130,6 +130,7 @@ function orgs (req, res, next) {
 function adminOrgs (req, res, next) {
 	data.orgsGetAll((err, data) => {
 		if (err) {
+			console.error(err)
 			return next(err)
 		}
 		res.send({orgs: data})
@@ -236,9 +237,19 @@ function delEvent (req, res, next) {
 	return next()
 }
 
-function scrapeAll (req, res, next) {
-	console.log('Initiating scrape job')
-	scrape.all((err, results) => {
+function scrapeAgx (req, res, next) {
+	scrape.agx((err, results) => {
+		if (err) {
+			console.error(err)
+			return next(err)
+		}
+		res.send(results)
+		next()
+	})
+}
+
+function scrapeGcals (req, res, next) {
+	scrape.gcals((err, results) => {
 		if (err) {
 			console.error(err)
 			return next(err)
@@ -270,7 +281,8 @@ server.get('/orgs', orgs)
 
 //Admin endpoints
 server.get('/admin', basicAuth, admin)
-server.get('/admin/scrape', basicAuth, scrapeAll)
+server.get('/admin/scrape/agx', basicAuth, scrapeAgx)
+server.get('/admin/scrape/gcals', basicAuth, scrapeGcals)
 
 server.get('/admin/orgs', basicAuth, adminOrgs)
 
