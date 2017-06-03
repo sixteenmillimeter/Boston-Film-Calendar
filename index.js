@@ -234,7 +234,16 @@ function createOrg (req, res, next) {
 }
 
 function delEvent (req, res, next) {
-	return next()
+	if (typeof req.params.event_id === 'undefined') {
+		return next('Invalid request')
+	}
+	data.calDelete(req.params.event_id, (err, results) => {
+		if (err) {
+			console.error(err)
+			return next(err)
+		}
+		res.send(results)
+	})
 }
 
 function scrapeAgx (req, res, next) {
@@ -250,6 +259,17 @@ function scrapeAgx (req, res, next) {
 
 function scrapeGcals (req, res, next) {
 	scrape.gcals((err, results) => {
+		if (err) {
+			console.error(err)
+			return next(err)
+		}
+		res.send(results)
+		next()
+	})
+}
+
+function scrapeMassart (req, res, next) {
+	scrape.massart((err, results) => {
 		if (err) {
 			console.error(err)
 			return next(err)
@@ -283,6 +303,7 @@ server.get('/orgs', orgs)
 server.get('/admin', basicAuth, admin)
 server.get('/admin/scrape/agx', basicAuth, scrapeAgx)
 server.get('/admin/scrape/gcals', basicAuth, scrapeGcals)
+server.get('/admin/scrape/massart', basicAuth, scrapeMassart)
 
 server.get('/admin/orgs', basicAuth, adminOrgs)
 
