@@ -231,10 +231,10 @@ $(function() {
 	};
 
 	var opts = {
-		  lines: 9 // The number of lines to draw
-		, length: 8 // The length of each line
-		, width: 7 // The line thickness
-		, radius: 10 // The radius of the inner circle
+		lines: 9 // The number of lines to draw
+		, length: 5 // The length of each line
+		, width: 6 // The line thickness
+		, radius: 8 // The radius of the inner circle
 		, scale: 0.75 // Scales overall size of the spinner
 		, corners: 1 // Corner roundness (0..1)
 		, color: '#fff' // #rgb or #rrggbb or array of colors
