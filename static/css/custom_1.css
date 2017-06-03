@@ -319,7 +319,18 @@ body {
 		text-align: left;
 		padding-right: 100px;
 	}
+	.custon-header h3 {
+		padding-right: 0;
+	}
+	.custon-header h2{
+	
+	}
 
+	#spin{
+		float: none;
+		position: absolute;
+		right: 150px;
+	}
 	.fc-calendar .fc-row,
 	.ie9 .fc-calendar .fc-row > div,
 	.fc-calendar .fc-row > div {
