@@ -209,11 +209,21 @@ var cancel = function () {
 
 var del = function () {
 	'use strict';
-	var msg = 'Are you sure you want to delete this event?';
+	var msg = 'Are you sure you want to delete this event?',
+		obj = {
+			url : '/admin/event',
+			type : 'DELETE',
+			data : {
+				event_id : $('#inputEventId').val()
+			}
+		}
+		obj.success = function (data) {
+			console.dir(data);
+			clearForm();
+			getMonth();
+		}
 	if (confirm(msg)) {
-		
-		//
-		clearForm();
+		$.ajax(obj);
 	}
 };
 
