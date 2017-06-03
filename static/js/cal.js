@@ -1,48 +1,6 @@
 
 
 $(function() {
-
-	var cal = $( '#calendar' ).calendario( {
-			onDayClick : function( $el, $contentEl, dateProperties ) {
-				for( var key in dateProperties ) {
-					//console.log( key + ' = ' + dateProperties[ key ] );
-				}
-			},
-			caldata : {}
-		} ),
-		$month = $( '#custom-month' ).html( MONTHS(cal.getMonthName()) ),
-		$year = $( '#custom-year' ).html( cal.getYear() ),
-		store = [],
-		orgs = {},
-		ev = {};
-
-	console.log(cal.setData + '');
-	console.log(cal._generateTemplate + '');
-
-	$( '#custom-next' ).on( 'click', function() {
-		cal.gotoNextMonth( updateMonthYear );
-	} );
-	$( '#custom-prev' ).on( 'click', function() {
-		cal.gotoPreviousMonth( updateMonthYear );
-	} );
-	$( '#custom-current' ).on( 'click', function() {
-		cal.gotoNow( updateMonthYear );
-	} );
-
-	$(document).on('click', '.eventViewable', function () {
-		var id = $(this).attr('id'),
-			obj = ev[id];
-		displayEvent(obj);
-	});
-
-	function updateMonthYear() {	
-		var month = cal.getMonthName(),
-			year = cal.getYear();
-		$month.html( MONTHS(month) );
-		$year.html( year );
-		getThisMonth(month, year);
-	}
-
 	var months = [
 		'blank',
 		'january',
@@ -83,6 +41,47 @@ $(function() {
 			return shortMonths[index]
 		} 
 		return monthName
+	}
+
+	var cal = $( '#calendar' ).calendario( {
+			onDayClick : function( $el, $contentEl, dateProperties ) {
+				for( var key in dateProperties ) {
+					//console.log( key + ' = ' + dateProperties[ key ] );
+				}
+			},
+			caldata : {}
+		} ),
+		$month = $( '#custom-month' ).html( MONTHS(cal.getMonthName()) ),
+		$year = $( '#custom-year' ).html( cal.getYear() ),
+		store = [],
+		orgs = {},
+		ev = {};
+
+	console.log(cal.setData + '');
+	console.log(cal._generateTemplate + '');
+
+	$( '#custom-next' ).on( 'click', function() {
+		cal.gotoNextMonth( updateMonthYear );
+	} );
+	$( '#custom-prev' ).on( 'click', function() {
+		cal.gotoPreviousMonth( updateMonthYear );
+	} );
+	$( '#custom-current' ).on( 'click', function() {
+		cal.gotoNow( updateMonthYear );
+	} );
+
+	$(document).on('click', '.eventViewable', function () {
+		var id = $(this).attr('id'),
+			obj = ev[id];
+		displayEvent(obj);
+	});
+
+	function updateMonthYear() {	
+		var month = cal.getMonthName(),
+			year = cal.getYear();
+		$month.html( MONTHS(month) );
+		$year.html( year );
+		getThisMonth(month, year);
 	}
 
 	var getThisMonth = function (month, year) {
