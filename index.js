@@ -5,7 +5,6 @@ const port = process.env.PORT || 8080
 const util = require('./lib/util')
 const data = require('./lib/data.js')
 const scrape = require('./lib/scrape')
-const gcals = require('./data/gcals.json')
 
 function init () {
 	console.log(`Initializing ${server.name}`)
@@ -138,100 +137,6 @@ function adminOrgs (req, res, next) {
 	})
 }
 
-function scrapeCutoff () {
-	const now = new Date()
-	let lastMonth = now.getMonth() - 1
-
-	if (lastMonth < 0) lastMonth = 11
-
-	now.setDate(1)
-	now.setHours(0)
-	now.setMinutes(0)
-	now.setMonth(lastMonth)
-	console.log(now)
-	return +now
-}
-
-function scrapeCals (req, res, next) {
-	console.log(`Starting scraping job`)
-
-	const cutoff = scrapeCutoff()
-
-	let added = 0
-	let eventObj
-	let errs = []
-
-	scrape.gcals(gcals, (err, d) => {
-		console.log(`Retreived gcal data`)
-		let i = -1
-		if (err) {
-			console.log(err)
-			return next(err)
-		}
-		const n = () => {
-			i++
-			if (i === d.length) {
-				console.log(`Scraping AgX`)
-				return scrape.agx(scrapeAgxCb)
-			}
-			eventObj = data.gcalFields(d[i])
-			if (eventObj.start_date < cutoff) return n()
-			data.calInsert(eventObj, (err, result) => {
-				if (err) {
-					if (err.code == 23505) {
-						console.log('Event already exists')
-					} else {
-						console.log('Error adding to database')
-						console.log(JSON.stringify(err))
-						errs.push(err)
-					}
-				} else {
-					added++
-					console.log(JSON.stringify(result))
-				}
-				n()
-			})
-		}
-		n()	
-	})
-
-	const scrapeAgxCb = (err, d) => {
-		console.log(`Retreived AgX data`)
-		let i = -1
-		if (err) {
-			console.error(err)
-			return next(err)
-		}
-		const n = () => {
-			i++
-			if (i == d.events.length) {
-				res.send({total: d.length, added: added, err: errs})
-				return next()
-			}
-			eventObj = data.calAgx(d.events[i].event)
-			if (eventObj.start_date < cutoff) return n()
-			console.log(eventObj)
-			data.calInsert(eventObj, (err, result) => {
-				if (err) {
-					if (err.code == 23505) {
-						console.log('Event already exists')
-					} else {
-						console.log('Error adding to database')
-						console.log(JSON.stringify(err))
-						errs.push(err)
-					}
-				} else {
-					added++
-					console.log(JSON.stringify(result))
-				}
-				n()
-			})
-		}
-		n()
-	}
-
-}
-
 function createEvent (req, res, next) {
 	if ( typeof req.params.org === 'undefined' ||
 		 typeof req.params.org_id === 'undefined' ||
@@ -345,34 +250,34 @@ server.get(/\/static\/?.*/, restify.serveStatic({
 	directory : __dirname
 }))
 
-server.get('/', index);
+server.get('/', index)
 
 //server.get('/calendar', calendar);
-server.get('/calendar/:month/:year', calendar);
-server.get('/orgs', orgs);
+server.get('/calendar/:month/:year', calendar)
+server.get('/orgs', orgs)
 
 //Admin endpoints
-server.get('/admin', basicAuth, admin);
-server.get('/admin/scrape', basicAuth, scrapeCals);
+server.get('/admin', basicAuth, admin)
+server.get('/admin/scrape', basicAuth, scrape.all)
 
-server.get('/admin/orgs', basicAuth, adminOrgs);
+server.get('/admin/orgs', basicAuth, adminOrgs)
 
-server.get('/admin/createEventTable', basicAuth, createEventTable);
-server.get('/admin/wipeEventTable', basicAuth, wipeEventTable);
+server.get('/admin/createEventTable', basicAuth, createEventTable)
+server.get('/admin/wipeEventTable', basicAuth, wipeEventTable)
 
-server.get('/admin/createOrgTable', basicAuth, createOrgTable);
-server.get('/admin/wipeOrgTable', basicAuth, wipeOrgTable);
+server.get('/admin/createOrgTable', basicAuth, createOrgTable)
+server.get('/admin/wipeOrgTable', basicAuth, wipeOrgTable)
 
-server.post('/admin/event', basicAuth, createEvent);
-server.put('/admin/event', basicAuth, updateEvent);
-server.del('/admin/event', basicAuth, delEvent);
+server.post('/admin/event', basicAuth, createEvent)
+server.put('/admin/event', basicAuth, updateEvent)
+server.del('/admin/event', basicAuth, delEvent)
 
-server.post('/admin/org', basicAuth, createOrg);
+server.post('/admin/org', basicAuth, createOrg)
 
 //
 
-init();
+init()
 
-server.listen(port, function () {
+server.listen(port, () => {
 	console.log(`${server.name} listening at ${server.url}`)
-});
+})
