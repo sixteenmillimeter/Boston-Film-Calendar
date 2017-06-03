@@ -273,6 +273,11 @@ body {
     clear: both;
 }
 
+#spin{
+	width: 100px;
+	height: 50px;
+}
+
 @media screen and (max-width: 880px) , screen and (max-height: 450px) {
 	html, body, .container {
 		height: auto;
