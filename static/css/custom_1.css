@@ -317,13 +317,12 @@ body {
 		float: none;
 		width: auto;
 		text-align: left;
-		padding-right: 100px;
 	}
-	.custon-header h3 {
+	.custom-header h3 {
 		padding-right: 0;
 	}
-	.custon-header h2{
-	
+	.custom-header h2{
+		padding-right: 100px;
 	}
 
 	#spin{
