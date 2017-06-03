@@ -9,9 +9,6 @@ const gcals = require('./data/gcals.json')
 
 function init () {
 	console.log(`Initializing ${server.name}`)
-	data.init(() => {
-		//
-	})
 }
 
 function index (req, res, next) {
@@ -26,7 +23,7 @@ function admin (req, res, next) {
 }
 
 function createEventTable (req, res, next) {
-	data.cal.create((err, data) => {
+	data.calCreate((err, data) => {
 		if (err) {
 			console.log(err)
 			return next(err)
@@ -38,7 +35,7 @@ function createEventTable (req, res, next) {
 }
 
 function wipeEventTable(req, res, next) {
-	data.cal.wipe((err, data) => {
+	data.calWipe((err, data) => {
 		if (err) {
 			console.log(err)
 			return next(err)
@@ -50,7 +47,7 @@ function wipeEventTable(req, res, next) {
 }
 
 function createOrgTable (req, res, next) {
-	data.orgs.create((err, data) => {
+	data.orgsCreate((err, data) => {
 		if (err) {
 			console.log(err)
 			return next(err)
@@ -62,7 +59,7 @@ function createOrgTable (req, res, next) {
 }
 
 function wipeOrgTable (req, res, next) {
-	data.orgs.wipe((err, data) => {
+	data.orgsWipe((err, data) => {
 		if (err) {
 			console.log(err)
 			return next(err)
@@ -103,7 +100,7 @@ function checkUserPassword (pw, cb) {
 
 function calendar (req, res, next) {
 	if (req.params && typeof req.params.month !== 'undefined' && typeof req.params.year !== 'undefined') {
-		data.cal.getMonth(req.params.month, req.params.year, (err, data) => {
+		data.calGetMonth(req.params.month, req.params.year, (err, data) => {
 			if (err) {
 				return next(err)
 			}
@@ -111,7 +108,7 @@ function calendar (req, res, next) {
 			return next()
 		})
 	} else {
-		data.cal.getAll((err, data) => {
+		data.calGetAll((err, data) => {
 			if (err) {
 				return next(err)
 			}
@@ -122,7 +119,7 @@ function calendar (req, res, next) {
 }
 
 function orgs (req, res, next) {
-	data.orgs.getAllPublic((err, data) => {
+	data.orgsGetAllPublic((err, data) => {
 		if (err) {
 			return next(err)
 		}
@@ -132,7 +129,7 @@ function orgs (req, res, next) {
 }
 
 function adminOrgs (req, res, next) {
-	data.orgs.getAll((err, data) => {
+	data.orgsGetAll((err, data) => {
 		if (err) {
 			return next(err)
 		}
@@ -177,9 +174,9 @@ function scrapeCals (req, res, next) {
 				console.log(`Scraping AgX`)
 				return scrape.agx(scrapeAgxCb)
 			}
-			eventObj = data.cal.gcalFields(d[i])
+			eventObj = data.gcalFields(d[i])
 			if (eventObj.start_date < cutoff) return n()
-			data.cal.insert(eventObj, (err, result) => {
+			data.calInsert(eventObj, (err, result) => {
 				if (err) {
 					if (err.code == 23505) {
 						console.log('Event already exists')
@@ -211,10 +208,10 @@ function scrapeCals (req, res, next) {
 				res.send({total: d.length, added: added, err: errs})
 				return next()
 			}
-			eventObj = data.cal.agx(d.events[i].event)
+			eventObj = data.calAgx(d.events[i].event)
 			if (eventObj.start_date < cutoff) return n()
 			console.log(eventObj)
-			data.cal.insert(eventObj, (err, result) => {
+			data.calInsert(eventObj, (err, result) => {
 				if (err) {
 					if (err.code == 23505) {
 						console.log('Event already exists')
@@ -263,7 +260,7 @@ function createEvent (req, res, next) {
 		end_date : req.params.end_date //millis
 	}
 
-	data.cal.insert(obj, (err, results) => {
+	data.calInsert(obj, (err, results) => {
 		if (err) return next(err)
 		res.send(results)
 		return next()
@@ -299,7 +296,7 @@ function updateEvent (req, res, next) {
 		end_date : req.params.end_date //millis
 	}
 
-	data.cal.update(req.params.event_id, obj, (err, results) => {
+	data.calUpdate(req.params.event_id, obj, (err, results) => {
 		if (err) return next(err)
 		res.send(results)
 	})
@@ -321,7 +318,7 @@ function createOrg (req, res, next) {
 		contact_name : req.params.contact_name,
 		contact_email : req.params.contact_email
 	}
-	data.orgs.insert(obj, (err, results) => {
+	data.orgsInsert(obj, (err, results) => {
 		if (err) {
 			console.error(err)
 			return next(err)

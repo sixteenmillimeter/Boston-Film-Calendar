@@ -4,4 +4,4 @@ Live: [bostonfilmcalendar.com](http://bostonfilmcalendar.com)
 
 ## Administrating
 
-The calendar is managed from the /admin 
+The calendar is managed from /admin 
