@@ -10,7 +10,7 @@ $(function() {
 			},
 			caldata : {}
 		} ),
-		$month = $( '#custom-month' ).html( cal.getMonthName() ),
+		$month = $( '#custom-month' ).html( MONTHS(cal.getMonthName()) ),
 		$year = $( '#custom-year' ).html( cal.getYear() ),
 		store = [],
 		orgs = {},
@@ -38,7 +38,7 @@ $(function() {
 	function updateMonthYear() {	
 		var month = cal.getMonthName(),
 			year = cal.getYear();
-		$month.html( month );
+		$month.html( MONTHS(month) );
 		$year.html( year );
 		getThisMonth(month, year);
 	}
@@ -58,6 +58,32 @@ $(function() {
 		'november',
 		'december'
 	];
+
+	var shortMonths = [
+		'blank',
+		'jan',
+		'feb',
+		'mar',
+		'apr',
+		'may',
+		'jun',
+		'jul',
+		'aug',
+		'sept',
+		'oct',
+		'nov',
+		'dec'
+	];
+
+	var MONTHS = function (monthName) {
+		'use strict';
+		var index
+		if ($(window).width() < 880) {
+			index = months.indexOf(monthName.toLowerCase())
+			return shortMonths[index]
+		} 
+		return monthName
+	}
 
 	var getThisMonth = function (month, year) {
 		'use strict';
