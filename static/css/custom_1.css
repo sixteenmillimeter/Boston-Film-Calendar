@@ -274,10 +274,12 @@ body {
 }
 
 #spin{
+	width: 20px;
 	height: 50px;
 	float: right;
 }
 #spin .spinner{
+	display: none;
 	margin-top: 15px;
 	margin-left: 20px;
 }

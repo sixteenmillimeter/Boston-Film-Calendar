@@ -75,12 +75,15 @@ $(function() {
 				success : function (data) {
 					console.log(data);
 					addToCalendar(data.calendar);
+					$('.spinner').hide();
 				},
 				error : function (xhr, status, error) {
 					console.log('ERROR GETTING CALENDAR');
 					console.log(error);
+					$('.spinner').hide();
 				}
 			}
+			$('.spinner').show();
 			$.ajax(req); 
 		}
 	};
