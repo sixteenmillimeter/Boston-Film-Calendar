@@ -236,7 +236,7 @@ $(function() {
 	var opts = {
 		lines: 9 // The number of lines to draw
 		, length: 5 // The length of each line
-		, width: 6 // The line thickness
+		, width: 5 // The line thickness
 		, radius: 8 // The radius of the inner circle
 		, scale: 0.75 // Scales overall size of the spinner
 		, corners: 1 // Corner roundness (0..1)
