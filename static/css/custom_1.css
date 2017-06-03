@@ -14,7 +14,7 @@ body {
 
 .custom-calendar-full {
 	position: absolute;
-	top: 24px;
+	top: 0px;
 	bottom: 0px;
 	left: 0px;
 	width: 100%;
