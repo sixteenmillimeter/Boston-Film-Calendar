@@ -236,6 +236,18 @@ function delEvent (req, res, next) {
 	return next()
 }
 
+function scrapeAll (req, res, next) {
+	console.log('Initiating scrape job')
+	scrape.all((err, results) => {
+		if (err) {
+			console.error(err)
+			return next(err)
+		}
+		res.send(results)
+		next()
+	})
+}
+
 const server = restify.createServer({
 	name: 'bostonfilm',
 	version: '1.0.0'
@@ -258,7 +270,7 @@ server.get('/orgs', orgs)
 
 //Admin endpoints
 server.get('/admin', basicAuth, admin)
-server.get('/admin/scrape', basicAuth, scrape.all)
+server.get('/admin/scrape', basicAuth, scrapeAll)
 
 server.get('/admin/orgs', basicAuth, adminOrgs)
 
