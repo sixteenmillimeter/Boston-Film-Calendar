@@ -221,7 +221,7 @@ $(function() {
 			html += '</strong></div>';
 
 			html += '<p class="eventDescription">';
-			html += decodeURI(obj.description).replace(new RegExp('\n', 'g'), '<br />');
+			html += obj.description.replace(new RegExp('\n', 'g'), '<br />');
 			html += '</p>';
 
 			html += '<span class="eventOrg label label-default">';

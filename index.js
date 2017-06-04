@@ -158,7 +158,7 @@ function createEvent (req, res, next) {
 		org_id : req.params.org_id,
 		title : req.params.title,
 		url : req.params.url,
-		description : encodeURI(req.params.description),
+		description : req.params.description,
 		location : req.params.location,
 		category : req.params.category,
 		mute : req.params.mute,
@@ -170,7 +170,7 @@ function createEvent (req, res, next) {
 		if (err) return next(err)
 		res.send(results)
 		return next()
-	})
+	}, true)
 }
 
 function updateEvent (req, res, next) {
