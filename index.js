@@ -158,7 +158,7 @@ function createEvent (req, res, next) {
 		org_id : req.params.org_id,
 		title : req.params.title,
 		url : req.params.url,
-		description : req.params.description,
+		description : encodeURI(req.params.description),
 		location : req.params.location,
 		category : req.params.category,
 		mute : req.params.mute,
