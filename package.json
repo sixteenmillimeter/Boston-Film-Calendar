@@ -20,6 +20,7 @@
     "asi": true
   },
   "dependencies": {
+    "async": "^2.5.0",
     "cheerio": "^0.20.0",
     "crypto": "0.0.3",
     "dateformat": "^1.0.12",
