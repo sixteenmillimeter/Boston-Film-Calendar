@@ -2,7 +2,7 @@
 const restify = require('restify')
 const port = process.env.PORT || 8080
 const util = require('./lib/util')
-const data = require('./lib/data.js')
+const data = require('./lib/data')
 const scrape = require('./lib/scrape')
 
 function init () {
