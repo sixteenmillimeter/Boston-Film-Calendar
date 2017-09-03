@@ -1,4 +1,4 @@
 node_modules/*
 *.DS_Store
-dev.sh
 process.json
+run_dev.sh
