@@ -4,7 +4,8 @@
   "description": "Calendar for aggregating events in Boston's film community.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs" : "sh docs.sh"
   },
   "author": "mmcwilliams",
   "license": "MIT",
@@ -26,5 +27,8 @@
     "request": "^2.72.0",
     "restify": "^4.1.1",
     "squel": "^5.3.2"
+  },
+  "devDependencies": {
+    "jsdoc-to-markdown": "^3.0.0"
   }
 }
