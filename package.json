@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "docs" : "sh docs.sh"
+    "docs": "sh docs.sh"
+  },
+  "engines": {
+    "node": "8.4.x"
   },
   "author": "mmcwilliams",
   "license": "MIT",
@@ -20,13 +23,13 @@
     "crypto": "0.0.3",
     "dateformat": "^1.0.12",
     "ical": "^0.5.0",
-    "ical-generator": "^0.2.7",
+    "ical-generator": "^0.2.10",
     "node-uuid": "^1.4.7",
-    "pg": "^6.0.1",
+    "pg": "^6.4.2",
     "public-google-calendar": "^0.1.0",
     "request": "^2.72.0",
-    "restify": "^4.1.1",
-    "squel": "^5.3.2"
+    "restify": "^4.3.1",
+    "squel": "^5.11.1"
   },
   "devDependencies": {
     "jsdoc-to-markdown": "^3.0.0"
