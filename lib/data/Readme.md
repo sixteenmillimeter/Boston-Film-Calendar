@@ -1,7 +1,7 @@
 <a name="Data"></a>
 
 ## Data
-Class representing the databas
+Class representing the database
 
 **Kind**: global class  
 
