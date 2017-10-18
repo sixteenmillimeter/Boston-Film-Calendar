@@ -1,5 +1,6 @@
 'use strict'
 const restify = require('restify')
+const bcrypt = require('bcrypt')
 const port = process.env.PORT || 8080
 const util = require('./lib/util')
 const data = require('./lib/data')
@@ -72,14 +73,15 @@ function basicAuth (req, res, next) {
 	res.header('WWW-Authenticate','Basic realm="Admin Console"')          
 
 	if (!req.authorization ||                                                       
-		!req.authorization.basic ||                                                 
+		!req.authorization.basic ||      
+		!req.authorization.basic.username ||                                           
 		!req.authorization.basic.password){   
 
 		res.send(401)                                                             
 		return next(false)                                                      
 	}                                                                             
 
-	checkUserPassword(req.authorization.basic.password, (err, data) => {        
+	checkUserPassword(req.authorization.basic.username, req.authorization.basic.password, (err, data) => {        
 		if (err || !data) {                                                          
 			res.send(401)                                                         
 			return next(false)                                                     
@@ -89,8 +91,8 @@ function basicAuth (req, res, next) {
 	})                                                                        
 }
 
-function checkUserPassword (pw, cb) {
-	if (pw === process.env.ADMIN_PW) {
+function checkUserPassword (user, pw, cb) {
+	if (user === process.env.ADMIN_USER && bcrypt.compareSync(pw, process.env.ADMIN_PW)) {
 		return cb(null, true)
 	}
 	return cb('Error')
