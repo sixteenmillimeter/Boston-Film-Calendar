@@ -9,7 +9,7 @@
     "docs": "sh docs.sh"
   },
   "engines": {
-    "node": "8.4.x"
+    "node": "8.7.x"
   },
   "author": "mmcwilliams",
   "license": "MIT",
