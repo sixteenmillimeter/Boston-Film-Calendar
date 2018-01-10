@@ -285,12 +285,12 @@ const server = restify.createServer({
 	version: '1.0.0'
 })
 
-server.use(restify.acceptParser(server.acceptable))
-server.use(restify.queryParser())
-server.use(restify.bodyParser())
-server.use(restify.authorizationParser())
+server.use(restify.plugins.acceptParser(server.acceptable))
+server.use(restify.plugins.queryParser())
+server.use(restify.plugins.bodyParser())
+server.use(restify.plugins.authorizationParser())
 
-server.get(/\/static\/?.*/, restify.serveStatic({
+server.get(/\/static\/?.*/, restify.plugins.serveStatic({
 	directory : __dirname
 }))
 
