@@ -31,7 +31,7 @@
     "node-uuid": "^1.4.7",
     "pg": "^6.4.2",
     "public-google-calendar": "^0.2.0",
-    "request": "^2.72.0",
+    "request": "^2.83.0",
     "restify": "^6.3.4",
     "squel": "^5.11.1"
   },
