@@ -22,20 +22,20 @@
   "dependencies": {
     "async": "^2.5.0",
     "bcrypt": "^1.0.3",
-    "cheerio": "^0.20.0",
-    "crypto": "0.0.3",
-    "dateformat": "^1.0.12",
+    "cheerio": "^0.22.0",
+    "crypto": "^1.0.1",
+    "dateformat": "^3.0.2",
     "ical": "^0.5.0",
     "ical-generator": "^0.2.10",
     "lodash": "^4.17.4",
     "node-uuid": "^1.4.7",
-    "pg": "^6.4.2",
-    "public-google-calendar": "^0.1.0",
+    "pg": "^7.4.1",
+    "public-google-calendar": "^0.2.0",
     "request": "^2.72.0",
-    "restify": "^4.3.1",
+    "restify": "^6.3.4",
     "squel": "^5.11.1"
   },
   "devDependencies": {
-    "jsdoc-to-markdown": "^3.0.0"
+    "jsdoc-to-markdown": "^3.0.4"
   }
 }
