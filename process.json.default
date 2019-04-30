@@ -6,7 +6,8 @@
 			"watch" : false,
 			"env" : {
 				"ADMIN_PW" : "",
-				"DATABASE_URL" : ""
+				"DATABASE_URL" : "",
+				"GOOGLE_ANALYTICS" : ""
 			}
 		}
 	]
