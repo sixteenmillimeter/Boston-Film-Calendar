@@ -1,23 +1,37 @@
 'use strict'
 const restify = require('restify')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const port = process.env.PORT || 8080
 const util = require('./lib/util')
 const data = require('./lib/data')
 const scrape = require('./lib/scrape')
 
+const GOOGLE_ANALYTICS = process.env.GOOGLE_ANALYTICS;
+
 function init () {
 	console.log(`Initializing ${server.name}`)
 }
 
-function index (req, res, next) {
+async function index (req, res, next) {
+	let pageData;
+	try {
+		pageData = await util.page('index', './views/index.html', { GOOGLE_ANALYTICS });
+	} catch (err) {
+		console.error(err);
+	}
 	console.log(`Page "index" requested at ${req.path()}`)
-	res.end(util.page('index', './views/index.html'))
+	res.end(pageData)
 	return next()
 }
 
-function admin (req, res, next) {
-	res.end(util.page('admin', './views/admin.html'))
+async function admin (req, res, next) {
+	let pageData;
+	try {
+		pageData = await util.page('index', './views/index.html');
+	} catch (err) {
+		console.error(err);
+	}
+	res.end(pageData)
 	return next()
 }
 
@@ -290,7 +304,7 @@ server.use(restify.plugins.queryParser())
 server.use(restify.plugins.bodyParser())
 server.use(restify.plugins.authorizationParser())
 
-server.get(/\/static\/?.*/, restify.plugins.serveStatic({
+server.get('/static/*', restify.plugins.serveStatic({
 	directory : __dirname
 }))
 
