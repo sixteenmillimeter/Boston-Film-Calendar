@@ -1,26 +1,32 @@
 'use strict'
+
+require('dotenv').config()
+
 const restify = require('restify')
 const bcrypt = require('bcryptjs')
-const port = process.env.PORT || 8080
 const util = require('./lib/util')
-const data = require('./lib/data')
 const scrape = require('./lib/scrape')
+let data 
 
-const GOOGLE_ANALYTICS = process.env.GOOGLE_ANALYTICS;
+
+const GOOGLE_ANALYTICS = process.env.GOOGLE_ANALYTICS
+const PORT = typeof process.env.PORT !== 'undefined' ? parseInt(process.env.PORT) : 8080
+const TITLE = typeof process.env.TITLE !== 'undefined' ? process.env.TITLE : 'Boston Film Calendar'
+const URL = typeof process.env.URL !== 'undefined' ? process.env.URL : `http://localhost:${PORT}`
 
 function init () {
 	console.log(`Initializing ${server.name}`)
 	data.calCreate((err) => { if (err) { console.error(err) } })
 	data.gcalCreate((err) => { if (err) { console.error(err) } })
-	data.orgCreate((err) => { if (err) { console.error(err) } })
+	data.orgsCreate((err) => { if (err) { console.error(err) } })
 }
 
 async function index (req, res, next) {
 	let pageData;
 	try {
-		pageData = await util.page('index', './views/index.html', { GOOGLE_ANALYTICS });
+		pageData = await util.page('index', './views/index.html', { GOOGLE_ANALYTICS, TITLE });
 	} catch (err) {
-		console.error(err);
+		console.error(err)
 	}
 	console.log(`Page "index" requested at ${req.path()}`)
 	res.end(pageData)
@@ -30,9 +36,9 @@ async function index (req, res, next) {
 async function admin (req, res, next) {
 	let pageData;
 	try {
-		pageData = await util.page('index', './views/index.html');
+		pageData = await util.page('admin', './views/admin.html', { TITLE })
 	} catch (err) {
-		console.error(err);
+		console.error(err)
 	}
 	res.end(pageData)
 	return next()
@@ -108,11 +114,12 @@ function basicAuth (req, res, next) {
 	})                                                                        
 }
 
-function checkUserPassword (user, pw, cb) {
-	if (user === process.env.ADMIN_USER && bcrypt.compareSync(pw, process.env.ADMIN_PW)) {
+function checkUserPassword (user, pwd, cb) {
+	if (user === process.env.ADMIN_USER && bcrypt.compareSync(pwd, process.env.ADMIN_PW)) {
 		return cb(null, true)
 	}
 	console.warn(`Failed login attempt: ${user}:${pwd[0]}***${pwd[pwd.length - 1]}`)
+	console.log(process.env.ADMIN_PW)
 	return cb('Error')
 }
 
@@ -276,10 +283,33 @@ function scrapeGcals (req, res, next) {
 	})
 }
 
-const server = restify.createServer({
+function getRSS (req, res, next) {
+	return data.calGetRSS(async (err, events) => {
+		const NOW = data.now()
+		let pageData;
+		if (err) {
+			console.error(err)
+			return next(err)
+		}
+	
+		try {
+			pageData = await util.page('rss', './views/rss.xml', { NOW, URL, TITLE, events });
+		} catch (err) {
+			console.error(err)
+		}
+
+		console.log(`Page "feed" requested at ${req.path()}`)
+		res.setHeader('content-type', 'application/xml')
+  		res.sendRaw(pageData)
+  		next()
+	})
+}
+
+const serverInfo = {
 	name: 'bostonfilm',
 	version: '1.0.0'
-})
+}
+const server = restify.createServer(serverInfo)
 
 server.use(restify.plugins.acceptParser(server.acceptable))
 server.use(restify.plugins.queryParser())
@@ -296,17 +326,13 @@ server.get('/', index)
 server.get('/calendar/:month/:year', calendar)
 server.get('/orgs', orgs)
 
+server.get('/feed', getRSS)
+
 //Admin endpoints
 server.get('/admin', basicAuth, admin)
 server.get('/admin/scrape/gcals', basicAuth, scrapeGcals)
 
 server.get('/admin/orgs', basicAuth, adminOrgs)
-
-server.get('/admin/createEventTable', basicAuth, createEventTable)
-server.get('/admin/wipeEventTable', basicAuth, wipeEventTable)
-
-server.get('/admin/createOrgTable', basicAuth, createOrgTable)
-server.get('/admin/wipeOrgTable', basicAuth, wipeOrgTable)
 
 server.post('/admin/event', basicAuth, createEvent)
 server.put('/admin/event', basicAuth, updateEvent)
@@ -314,10 +340,8 @@ server.del('/admin/event', basicAuth, delEvent)
 
 server.post('/admin/org', basicAuth, createOrg)
 
-//
+data = require('./lib/data')(init)
 
-init()
-
-server.listen(port, () => {
-	console.log(`${server.name} listening at ${server.url}`)
+server.listen(PORT, () => {
+	console.log(`${server.name} listening at ${server.url} v${serverInfo.version}`)
 })
