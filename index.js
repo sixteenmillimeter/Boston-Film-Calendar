@@ -261,30 +261,8 @@ function delEvent (req, res, next) {
 	})
 }
 
-function scrapeAgx (req, res, next) {
-	scrape.agx((err, results) => {
-		if (err) {
-			console.error(err)
-			return next(err)
-		}
-		res.send(results)
-		next()
-	})
-}
-
 function scrapeGcals (req, res, next) {
 	scrape.gcals((err, results) => {
-		if (err) {
-			console.error(err)
-			return next(err)
-		}
-		res.send(results)
-		next()
-	})
-}
-
-function scrapeMassart (req, res, next) {
-	scrape.massart((err, results) => {
 		if (err) {
 			console.error(err)
 			return next(err)
@@ -316,9 +294,7 @@ server.get('/orgs', orgs)
 
 //Admin endpoints
 server.get('/admin', basicAuth, admin)
-server.get('/admin/scrape/agx', basicAuth, scrapeAgx)
 server.get('/admin/scrape/gcals', basicAuth, scrapeGcals)
-server.get('/admin/scrape/massart', basicAuth, scrapeMassart)
 
 server.get('/admin/orgs', basicAuth, adminOrgs)
 
