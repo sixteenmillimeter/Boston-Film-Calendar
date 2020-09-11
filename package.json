@@ -29,7 +29,6 @@
     "handlebars": "^4.7.6",
     "ical": "^0.8.0",
     "ical-generator": "^1.15.0",
-    "lodash": "^4.17.20",
     "pg": "^8.3.3",
     "public-google-calendar": "^0.2.0",
     "request": "^2.88.2",
