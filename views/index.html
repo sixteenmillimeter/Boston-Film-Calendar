@@ -5,14 +5,14 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-		<title>Boston Film Calendar</title>
+		<title>{{TITLE}}</title>
 		<meta name="description" content="Flexible Calendar with jQuery and CSS3" />
 		<meta name="keywords" content="responsive, calendar, jquery, plugin, full page, flexible, javascript, css3, media queries" />
 		<meta name="author" content="mmcwilliams" />
 		<link rel="shortcut icon" href="../favicon.ico"> 
 		<link rel="stylesheet" type="text/css" href="/static/css/calendar.css" />
 		<link rel="stylesheet" type="text/css" href="/static/css/custom_1.css" />
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<script src="/static/js/modernizr.custom.63321.js"></script>
 	</head>
 	<body>
@@ -22,7 +22,7 @@
 			</div><!--/ Codrops top bar -->
 			<div class="custom-calendar-wrap custom-calendar-full">
 				<div class="custom-header clearfix">
-					<h2>Boston Film Calendar</h2>
+					<h2>{{TITLE}}</h2>
 					<h3 class="custom-month-year">
 						<span id="spin"></span>
 						<span id="custom-month" class="custom-month"></span>
@@ -37,13 +37,16 @@
 				<div id="calendar" class="fc-calendar-container"></div>
 			</div>
 		</div><!-- /container -->
-		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-		<script type="text/javascript" src="/static/js/jquery.calendario.js"></script>
-		<script type="text/javascript" src="/static/js/bootbox.min.js"></script>
-		<script type="text/javascript" src="/static/js/moment.js"></script>
-		<script type="text/javascript" src="/static/js/spin.min.js"></script>
-		<script type="text/javascript" src="/static/js/cal.js">	</script>
+		<footer>
+			<small>{{TITLE}} <span>&copy;</span> <span id="year"></span></small>
+		</footer>
+		<script src="/static/js/jquery.min.js"></script>
+		<script src="/static/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script src="/static/js/jquery.calendario.js"></script>
+		<script src="/static/js/bootbox.min.js"></script>
+		<script src="/static/js/moment.js"></script>
+		<script src="/static/js/spin.min.js"></script>
+		<script src="/static/js/cal.js">	</script>
 
 		<script>
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
