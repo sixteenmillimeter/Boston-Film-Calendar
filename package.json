@@ -20,23 +20,23 @@
     "asi": true
   },
   "dependencies": {
-    "async": "^2.6.2",
+    "async": "^3.2.0",
     "bcryptjs": "^2.4.3",
     "cheerio": "^0.22.0",
     "crypto": "^1.0.1",
     "dateformat": "^3.0.3",
-    "fs-extra": "^7.0.1",
-    "handlebars": "^4.1.2",
-    "ical": "^0.6.0",
-    "ical-generator": "^1.7.1",
-    "lodash": "^4.17.11",
-    "pg": "^7.10.0",
+    "fs-extra": "^9.0.1",
+    "handlebars": "^4.7.6",
+    "ical": "^0.8.0",
+    "ical-generator": "^1.15.0",
+    "lodash": "^4.17.20",
+    "pg": "^8.3.3",
     "public-google-calendar": "^0.2.0",
-    "request": "^2.88.0",
-    "restify": "^8.3.1",
-    "squel": "^5.12.2"
+    "request": "^2.88.2",
+    "restify": "^8.5.1",
+    "squel": "^5.13.0"
   },
   "devDependencies": {
-    "jsdoc-to-markdown": "^4.0.1"
+    "jsdoc-to-markdown": "^6.0.1"
   }
 }
