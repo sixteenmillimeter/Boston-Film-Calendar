@@ -5,6 +5,7 @@
 			"script" : "./index.js",
 			"watch" : false,
 			"env" : {
+				"ADMIN_USER" : "admin",
 				"ADMIN_PW" : "",
 				"DATABASE_URL" : "",
 				"GOOGLE_ANALYTICS" : ""

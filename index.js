@@ -10,6 +10,9 @@ const GOOGLE_ANALYTICS = process.env.GOOGLE_ANALYTICS;
 
 function init () {
 	console.log(`Initializing ${server.name}`)
+	data.calCreate((err) => { if (err) { console.error(err) } })
+	data.gcalCreate((err) => { if (err) { console.error(err) } })
+	data.orgCreate((err) => { if (err) { console.error(err) } })
 }
 
 async function index (req, res, next) {
@@ -109,6 +112,7 @@ function checkUserPassword (user, pw, cb) {
 	if (user === process.env.ADMIN_USER && bcrypt.compareSync(pw, process.env.ADMIN_PW)) {
 		return cb(null, true)
 	}
+	console.warn(`Failed login attempt: ${user}:${pwd[0]}***${pwd[pwd.length - 1]}`)
 	return cb('Error')
 }
 
