@@ -8,7 +8,9 @@
 				"ADMIN_USER" : "admin",
 				"ADMIN_PW" : "",
 				"DATABASE_URL" : "",
-				"GOOGLE_ANALYTICS" : ""
+				"GOOGLE_ANALYTICS" : "",
+				"TITLE" : "Boston Film Calendar",
+				"URL" : "http://localhost:8080"
 			}
 		}
 	]
