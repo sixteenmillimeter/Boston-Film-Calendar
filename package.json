@@ -20,7 +20,7 @@
     "asi": true
   },
   "dependencies": {
-    "async": "^3.2.0",
+    "async": "^3.2.2",
     "bcryptjs": "^2.4.3",
     "cheerio": "^0.22.0",
     "crypto": "^1.0.1",
